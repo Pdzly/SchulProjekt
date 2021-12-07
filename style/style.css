@@ -8,7 +8,19 @@ body{
     margin: 0;
 }
 #Controlls{
-    position: fixed;
+    position: relative;
     left: 0px;
-    bottom: 10px;
+    bottom: -100px;
+    padding: 0;
+}
+
+#impressum{
+    width: 100%;
+    height: fit-content;
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    border-top: 5px solid black;
+    padding: 10px;
+    position: relative;
 }

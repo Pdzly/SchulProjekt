@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var port = 3000
-var games = require('./api/gt_games');
 app.engine('handlebars', exphbs.engine({
     defaultLayout: 'main',
     extname: '.handlebars'
@@ -18,6 +17,8 @@ app.use("/scripts", express.static('scripts'));
 app.use("/style", express.static('style'));
 app.use("/img", express.static('images'));
 
+var games = require('./api/gt_games');
+
 app.use("/node_modules", express.static('node_modules'));
 app.use("/api/games", games);
 
@@ -28,6 +29,10 @@ let comments = [];
 
 app.get('/', function (request, response, next) {
     response.render('homepage', comments);
+});
+
+app.get('/*', function (request, response, next) {
+    response.render('404', {title: "GameTopia"});
 });
 
 
