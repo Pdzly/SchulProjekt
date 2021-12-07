@@ -17,10 +17,10 @@ app.use("/scripts", express.static('scripts'));
 app.use("/style", express.static('style'));
 app.use("/img", express.static('images'));
 
-var games = require('./api/gt_games');
+
 
 app.use("/node_modules", express.static('node_modules'));
-app.use("/api/games", games);
+app.use("/api/", api);
 
 app.use(bodyParser.urlencoded({
     extended: true,

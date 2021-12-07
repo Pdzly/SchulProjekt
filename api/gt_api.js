@@ -2,27 +2,15 @@ var express = require('express');
 var router = express.Router();
 var games = []
 
-/* GET home page. */
-router.post('/setgames', function (req, res, next) {
-    var data = req.body
-    
-    if (data === null || data.length === 0) {
-        res.json([{success: false}])
-        return
-    }
-    games.push(data)
-    res.json([{success: true, data: data}]);
+var games = require('./api/gt_games');
+var user = require('./api/gt_usermanager.js');
+
+router.use('/games', games);
+router.use('/user', games);
+
+router.get('/', function (req, res, next) {
+    res.json([{success: true}]);
 });
-
-router.get('/getgames', function (req, res, next) {
-    var data = games
-
-    res.json([{success: true, data: data}]);
-});
-
-function getgames(){
-
-}
 
 module.exports = {
     router: router, 
