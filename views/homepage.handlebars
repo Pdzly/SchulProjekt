@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">GLIDE</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">JOIN!</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">LISTS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">NEWS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled"></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<h1 id="homepage">GLIDE</h1>
+
+<div class="glide">
+    <div class="glide__track" data-glide-el="track" id="slideshow">
+        <ul class="glide__slides">
+            <li class="glide__slide"><img src="img/example.jpg" \></li>
+            <li class="glide__slide"><img src="img/example.jpg" \></li>
+            <li class="glide__slide"><img src="img/example.jpg" \></li>
+        </ul>
+    </div>
+</div>
+<div class="glide__arrows" data-glide-el="controls" id="Controlls">
+    <button class="glide__arrow glide__arrow--left btn btn-primary" data-glide-dir="<">Vorheriges</button>
+    <button class="glide__arrow glide__arrow--right btn btn-primary" data-glide-dir=">">Nächstes</button>
+</div>
+<script>
+    var glid = new Glide('.glide', {
+        type: 'carousel',
+        startAt: 0,
+        perView: 3
+    }).mount()
+
+
+</script>

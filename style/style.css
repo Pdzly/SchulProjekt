@@ -1,0 +1,14 @@
+.glide__arrow{
+    color: white !important;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+#Controlls{
+    position: fixed;
+    left: 0px;
+    bottom: 10px;
+}
