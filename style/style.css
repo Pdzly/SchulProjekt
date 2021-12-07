@@ -24,3 +24,7 @@ body{
     padding: 10px;
     position: relative;
 }
+
+.glide__slide--active > img{
+    border: 5px dotted black;
+}
