@@ -1,0 +1,135 @@
+
+.right{
+	right: 0px;
+}
+
+.left{
+	left: 0px;
+}
+
+.glide__arrow{
+    color: white !important;
+}
+
+#gl{
+    width: 100%;
+}
+
+.glide{
+    margin: auto;
+    width: 100%;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
+#impressum{
+    width: 100%;
+    height: fit-content;
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    border-top: 5px solid black;
+    margin-top: 50px;
+    padding: 10px;
+}
+
+.glide__slide--active > img{
+    border: 5px dotted black;
+}
+
+h1 {
+	font-family: 'Oswald';
+	font-size: 36px;
+	letter-spacing: 8px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #99e1d9;
+}
+
+h2 {
+	font-family: 'Oswald';
+	font-size: 28px;
+	letter-spacing: 8px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #99e1d9;
+}
+
+
+fontnav {
+	font-family: 'Oswald';
+	font-size: 25px;
+	letter-spacing: 8px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #9b9a9a;
+}
+
+fontnav:hover {
+	letter-spacing: 10px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #99e1d9;
+	-webkit-transition: all 1s ease;
+  	-moz-transition: all 1s ease;
+  	-o-transition: all 1s ease;
+  	transition: all 1s ease;
+}
+
+a {
+	font-family: 'Oswald';
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	color: #9b9a9a !important;
+}
+
+a:hover {
+	font-family: 'Oswald';
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	color: #99e1d9 !important;
+}
+a:not(a:hover) {
+	font-family: 'Oswald';
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	color: #9b9a9a !important;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+#prevbtn{
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.781), rgba(0, 0, 0, 0.561), rgba(0, 0, 0, 0.37));
+    border: none;
+    border-radius: 0;
+    left: 0;
+}
+
+#nextbtn{
+    height: 100%;
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.781), rgba(0, 0, 0, 0.287), rgba(0, 0, 0, 0));
+    border: none;
+    border-radius: 0;
+    right: 0;
+}
+
+.glide__slide{
+    align-self: center;
+}
+
+.gamepreview{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#form-games{
+	padding: 10px;
+}

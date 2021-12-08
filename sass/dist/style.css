@@ -1,37 +1,30 @@
-/* line 2, H:/github/SchulProjekt/sass/style.scss */
 .right {
   right: 0px;
 }
 
-/* line 6, H:/github/SchulProjekt/sass/style.scss */
 .left {
   left: 0px;
 }
 
-/* line 10, H:/github/SchulProjekt/sass/style.scss */
 .glide__arrow {
   color: white !important;
 }
 
-/* line 14, H:/github/SchulProjekt/sass/style.scss */
 #gl {
   width: 100%;
 }
 
-/* line 18, H:/github/SchulProjekt/sass/style.scss */
 .glide {
   margin: auto;
   width: 100%;
 }
 
-/* line 23, H:/github/SchulProjekt/sass/style.scss */
 body {
   width: 100vw;
   height: 100vh;
   margin: 0;
 }
 
-/* line 29, H:/github/SchulProjekt/sass/style.scss */
 #impressum {
   width: 100%;
   height: fit-content;
@@ -43,14 +36,12 @@ body {
   padding: 10px;
 }
 
-/* line 40, H:/github/SchulProjekt/sass/style.scss */
 .glide__slide--active > img {
   border: 5px dotted black;
 }
 
-/* line 44, H:/github/SchulProjekt/sass/style.scss */
 h1 {
-  font-family: 'Oswald';
+  font-family: "Oswald";
   font-size: 36px;
   letter-spacing: 8px;
   text-transform: uppercase;
@@ -58,9 +49,8 @@ h1 {
   color: #99e1d9;
 }
 
-/* line 53, H:/github/SchulProjekt/sass/style.scss */
 h2 {
-  font-family: 'Oswald';
+  font-family: "Oswald";
   font-size: 28px;
   letter-spacing: 8px;
   text-transform: uppercase;
@@ -68,9 +58,8 @@ h2 {
   color: #99e1d9;
 }
 
-/* line 63, H:/github/SchulProjekt/sass/style.scss */
 fontnav {
-  font-family: 'Oswald';
+  font-family: "Oswald";
   font-size: 25px;
   letter-spacing: 8px;
   text-transform: uppercase;
@@ -78,7 +67,6 @@ fontnav {
   color: #9b9a9a;
 }
 
-/* line 72, H:/github/SchulProjekt/sass/style.scss */
 fontnav:hover {
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -90,25 +78,22 @@ fontnav:hover {
   transition: all 1s ease;
 }
 
-/* line 83, H:/github/SchulProjekt/sass/style.scss */
 a {
-  font-family: 'Oswald';
+  font-family: "Oswald";
   letter-spacing: 4px;
   text-transform: uppercase;
   color: #9b9a9a !important;
 }
 
-/* line 90, H:/github/SchulProjekt/sass/style.scss */
 a:hover {
-  font-family: 'Oswald';
+  font-family: "Oswald";
   letter-spacing: 4px;
   text-transform: uppercase;
   color: #99e1d9 !important;
 }
 
-/* line 96, H:/github/SchulProjekt/sass/style.scss */
 a:not(a:hover) {
-  font-family: 'Oswald';
+  font-family: "Oswald";
   letter-spacing: 4px;
   text-transform: uppercase;
   color: #9b9a9a !important;
@@ -118,7 +103,6 @@ a:not(a:hover) {
   transition: all 1s ease;
 }
 
-/* line 107, H:/github/SchulProjekt/sass/style.scss */
 #prevbtn {
   height: 100%;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.781), rgba(0, 0, 0, 0.561), rgba(0, 0, 0, 0.37));
@@ -127,7 +111,6 @@ a:not(a:hover) {
   left: 0;
 }
 
-/* line 115, H:/github/SchulProjekt/sass/style.scss */
 #nextbtn {
   height: 100%;
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.781), rgba(0, 0, 0, 0.287), rgba(0, 0, 0, 0));
@@ -136,21 +119,16 @@ a:not(a:hover) {
   right: 0;
 }
 
-/* line 123, H:/github/SchulProjekt/sass/style.scss */
 .glide__slide {
   align-self: center;
 }
 
-/* line 127, H:/github/SchulProjekt/sass/style.scss */
 .gamepreview {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 133, H:/github/SchulProjekt/sass/style.scss */
 #form-games {
   padding: 10px;
 }
-
-/*# sourceMappingURL=style.css.map */

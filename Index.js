@@ -32,6 +32,10 @@ app.get('/', function (request, response, next) {
     response.render('homepage', comments);
 });
 
+app.get('/create', function (request, response, next) {
+    response.render('creategames', comments);
+});
+
 app.get('/*', function (request, response, next) {
     response.render('404', {title: "GameTopia"});
 });
