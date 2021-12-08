@@ -3,20 +3,24 @@ function loaddata(gld) {
     console.log("inside")
     glider = new Glide(".glide", {
         breakpoints: {
-            1.536: {
-                perView: 3
+            1700: {
+                perView: 2,
+                peek: 150,
             },
-            1024: {
-                perView: 2
+            1000: {
+                perView: 1,
+                peek: 100,
             },
-            512: {
-                perView: 1
+            500: {
+                perView: 1,
+                peek: 0,
+
             }
         },
         type: 'carousel',
         startAt: 0,
-        perView: 3,
-        peek: 50,
+        perView: 4,
+        peek: 250,
         animationDuration: 800,
         animationTimingFunc: "ease",
         hoverpause: false,
@@ -29,4 +33,8 @@ function domove(move){
     if(glider != null){
         glider.go(move)
     }
+}
+
+function opendetails(){
+    
 }

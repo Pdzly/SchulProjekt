@@ -1,17 +1,19 @@
 .glide__arrow{
     color: white !important;
 }
-
+#gl{
+    width: 100%;
+}
+.glide{
+    margin: auto;
+    width: 100%;
+}
+.glide__track{
+}
 body{
     width: 100vw;
     height: 100vh;
     margin: 0;
-}
-#Controlls{
-    position: relative;
-    left: 0px;
-    bottom: -100px;
-    padding: 0;
 }
 
 #impressum{
@@ -21,8 +23,8 @@ body{
     bottom: 0;
     left: 0;
     border-top: 5px solid black;
+    margin-top: 50px;
     padding: 10px;
-    position: relative;
 }
 
 .glide__slide--active > img{
@@ -72,15 +74,48 @@ a {
 	font-family: 'Oswald';
 	letter-spacing: 4px;
 	text-transform: uppercase;
-	padding: 15px;
-	color: #9b9a9a;
+	color: #9b9a9a !important;
 }
 
 a:hover {
 	font-family: 'Oswald';
 	letter-spacing: 4px;
 	text-transform: uppercase;
-	padding: 15px;
-	color: #99e1d9;
+	color: #99e1d9 !important;
+}
+a:not(a:hover) {
+	font-family: 'Oswald';
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	color: #9b9a9a !important;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
 }
 
+#prevbtn{
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.781), rgba(0, 0, 0, 0.561), rgba(0, 0, 0, 0.37));
+    border: none;
+    border-radius: 0;
+    left: 0;
+}
+
+#nextbtn{
+    height: 100%;
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.781), rgba(0, 0, 0, 0.287), rgba(0, 0, 0, 0));
+    border: none;
+    border-radius: 0;
+    right: 0;
+}
+
+.glide__slide{
+    align-self: center;
+}
+
+.gamepreview{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

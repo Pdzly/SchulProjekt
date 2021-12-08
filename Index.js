@@ -18,7 +18,8 @@ app.use("/style", express.static('style'));
 app.use("/img", express.static('images'));
 
 
-
+var api = require('./api/gt_api');
+ 
 app.use("/node_modules", express.static('node_modules'));
 app.use("/api/", api);
 

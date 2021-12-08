@@ -1,20 +1,21 @@
-
 <h1 id="homepage">GLIDE</h1>
-
-<div class="glide">
-  <div class="glide__track" data-glide-el="track" id="slideshow">
-    <ul class="glide__slides">
-      <li class="glide__slide"><img src="img/example.jpg" \></li>
-      <li class="glide__slide"><img src="img/example.jpg" \></li>
-      <li class="glide__slide"><img src="img/example.jpg" \></li>
-    </ul>
+<div id="gl">
+  <div class="glide">
+    <div class="glide__track" data-glide-el="track" id="slideshow">
+      <ul class="glide__slides">
+        <li class="glide__slide"><img class="gamepreview" src="img/example.jpg" \></li>
+        <li class="glide__slide"><img class="gamepreview" src="img/example.jpg" \></li>
+        <li class="glide__slide"><img class="gamepreview" src="img/example.jpg" \></li>
+      </ul>
+    </div>
+    <button class="glide__arrow glide__arrow--left" id="prevbtn" onclick="domove('<')"><span
+        class="carousel-control-prev-icon" aria-hidden="true"></span></button>
+    <button class="glide__arrow glide__arrow--right" id="nextbtn" onclick="domove('>')"><span
+        class="carousel-control-next-icon" aria-hidden="true"></span></button>
   </div>
+</div>
 
-</div>
-<div class="glide__arrows" data-glide-el="controls" id="Controlls">
-  <button class="glide__arrow glide__arrow--left btn btn-primary" onclick="domove('<')">Vorheriges</button>
-  <button class="glide__arrow glide__arrow--right btn btn-primary" onclick="domove('>')">Nächstes</button>
-</div>
+
 <script>
   loaddata()
 </script>
