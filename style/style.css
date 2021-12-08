@@ -28,3 +28,59 @@ body{
 .glide__slide--active > img{
     border: 5px dotted black;
 }
+
+h1 {
+	font-family: 'Oswald';
+	font-size: 36px;
+	letter-spacing: 8px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #99e1d9;
+}
+
+h2 {
+	font-family: 'Oswald';
+	font-size: 28px;
+	letter-spacing: 8px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #99e1d9;
+}
+
+
+fontnav {
+	font-family: 'Oswald';
+	font-size: 25px;
+	letter-spacing: 8px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #9b9a9a;
+}
+
+fontnav:hover {
+	letter-spacing: 10px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #99e1d9;
+	-webkit-transition: all 1s ease;
+  	-moz-transition: all 1s ease;
+  	-o-transition: all 1s ease;
+  	transition: all 1s ease;
+}
+
+a {
+	font-family: 'Oswald';
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #9b9a9a;
+}
+
+a:hover {
+	font-family: 'Oswald';
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	padding: 15px;
+	color: #99e1d9;
+}
+
