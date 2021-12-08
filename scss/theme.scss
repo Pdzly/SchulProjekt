@@ -1,0 +1,10 @@
+$theme-colors: (
+    "primary": #99e1d9,
+    "danger": #ff4136,
+    "gray": #9b9a9a
+  );
+
+
+// Alles was überschrieben werden muss / soll über dies hier
+// Muss nachdem ich alles initiert habe importiert werden!!!!!!
+@import "../node_modules/bootstrap/scss/bootstrap";
