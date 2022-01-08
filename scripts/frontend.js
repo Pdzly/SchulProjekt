@@ -26,20 +26,21 @@ var glideropts = {
     perTouch: 3,
     focusAt: 'center',
 }
+
 function loaddata(gld) {
     glider = new Glide(".glide", glideropts).mount()
 }
 
-function domove(move){
-    if(glider != null){
+function domove(move) {
+    if (glider != null) {
         glider.go(move)
     }
 }
 
-function opendetails(){
-    
+function opendetails() {
+
 }
 
-document.onresize = function(ev){
+document.onresize = function (ev) {
     glider = new Glide(".glide", glideropts).mount()
 }

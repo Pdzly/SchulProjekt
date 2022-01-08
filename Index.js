@@ -2,6 +2,8 @@ const { response } = require('express');
 var express = require('express');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
+db = require('./mysql/manager');
+db.connect()
 
 var app = express();
 
@@ -39,8 +41,6 @@ app.get('/create', function (request, response, next) {
 app.get('/*', function (request, response, next) {
     response.render('404', {title: "GameTopia"});
 });
-
-
 
 app.listen(port, function () {
     console.log('Running on ' + port);
