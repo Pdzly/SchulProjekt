@@ -10,7 +10,7 @@ var app = express();
 var port = 3000
 app.engine('handlebars', exphbs.engine({
     defaultLayout: 'main',
-    extname: '.handlebars'
+    extname: '.hbs'
 }));
 app.set('view engine', 'handlebars');
 app.enable('view cache');
