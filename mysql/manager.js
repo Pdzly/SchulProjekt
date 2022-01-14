@@ -33,9 +33,11 @@ let db = {
         })
     },
     querysimple: function (table, select, where) {
-
+      
         return new Promise(function (resolve, reject) {
-
+            if(con.state === 'disconnected'){
+                reject("Datenbankverbindungs wurde unterbrochen")
+              }
             if (!table) {
                 throw "Ein Table ist notwendig!"
             }

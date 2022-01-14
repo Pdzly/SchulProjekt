@@ -4,6 +4,7 @@
   "description": "",
   "main": "Index.js",
   "scripts": {
+    "start": "node Index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +15,8 @@
     "bootstrap": "^5.1.3",
     "express": "^4.17.1",
     "express-handlebars": "^6.0.1",
+    "filepond-plugin-file-poster": "^2.5.1",
+    "formidable": "^2.0.1",
     "mysql": "^2.18.1"
   }
 }

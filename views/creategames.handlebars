@@ -1,11 +1,11 @@
 <h1>Hinzufügen von Spielen in die Datenbank</h1>
 <div id="form-games">
-    <div class="form-row">
-        <div class="form-group col-md-6">
+    <div class="row">
+        <div class="col-6">
             <label for="inputtitel">Titel</label>
             <input type="text" class="form-control" id="inputtitel" placeholder="Titel" required>
         </div>
-        <div class="form-group col-md-6">
+        <div class="col-6">
             <label for="inputreleaser">Releaser</label>
             <select id="inputreleaser" class="form-control" multiple>
                 <option selected>Auswählen</option>
@@ -15,14 +15,54 @@
             </select>
         </div>
     </div>
-    <div class="form-group">
-        <label for="inputurl">URL zu einem Store</label>
-        <input type="text" class="form-control" id="inputurl" placeholder="https://steam.....">
+    <div class="row">
+        <div class=" col-6">
+            <label for="inputurl">URL zu einem Store</label>
+            <input type="text" class="form-control" id="inputurl" placeholder="https://steam.....">
+        </div>
+        <div class="col-6">
+            <label for="inputgenre">Genres</label>
+            <select id="inputgenre" class="form-control" multiple>
+                <option selected>Auswählen</option>
+            </select>
+        </div>
+
     </div>
-    <div class="form-group">
-        <label for="inputdescription">Beschreibung</label>
-        <input type="text" class="form-control" id="inputdescription" placeholder="Es ist ein Spiel über .....">
+    <div class="row">
+        <div class="col-6">
+            <label for="inputdescription">Beschreibung</label>
+            <input type="text" id="inputdescription" class="form-control" placeholder="Es ist ein Spiel über .....">
+        </div>
+        <div class="col-6">
+            <label for="inputplatf">Platform</label>
+            <select id="inputplatf" class="form-control">
+                <option selected>Auswählen</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label for="inputbilder" class="form-label">Bilder</label>
+            <input id="inputbilder" class="filepond" type="file" onchange="handleFiles(this.files)" multiple>
+        </div>
+        <div class="col-6">
+            <div class="col-6">
+                <label for="inputfsk">FSK</label>
+                <select id="inputfsk" class="form-control">
+                    <option selected>Auswählen</option>
+                </select>
+            </div>
+        </div>
     </div>
     <br>
-    <button type="submit" class="btn btn-primary">Hinzufügen</button>
+    <button type="submit" onclick="submitdata()" class="btn btn-primary">Hinzufügen</button>
 </div>
+<script>
+    FilePond.setOptions({
+        server: "/api/uploadbild",
+        allowMultiple: true,
+    })
+    FilePond.parse(document.body);
+    load()
+
+</script>
