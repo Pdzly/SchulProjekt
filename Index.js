@@ -9,11 +9,11 @@ db.connect()
 var app = express();
 
 var port = 3000
-app.engine('handlebars', exphbs.engine({
+app.engine('.hbs', exphbs.engine({
     defaultLayout: 'main',
     extname: '.hbs'
 }));
-app.set('view engine', 'handlebars');
+app.set('view engine', '.hbs');
 app.enable('view cache');
 
 app.use("/scripts", express.static('scripts'));
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', function (request, response, next) {
-    response.render('homepage',);
+    response.render('homepage');
 });
 
 app.get('/create', function (request, response, next) {
