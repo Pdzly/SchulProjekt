@@ -13,11 +13,11 @@ var games = []
 const glideropts = {
     breakpoints: {
         1700: {
-            perView: 2,
+            perView: 3,
             peek: 150,
         },
         1000: {
-            perView: 1,
+            perView: 2,
             peek: 100,
         },
         500: {
@@ -28,7 +28,7 @@ const glideropts = {
     },
     type: 'carousel',
     startAt: 0,
-    perView: 4,
+    perView: 5,
     peek: 250,
     animationDuration: 800,
     animationTimingFunc: "ease",
@@ -40,7 +40,7 @@ const glideropts = {
 
 //#region Main
 
-function addgame(key, data) {
+function addgame(data) {
     let li = document.createElement("li")
     li.classList.add("glide_slide")
 
@@ -59,14 +59,15 @@ function addgame(key, data) {
     gl.appendChild(li)
 }
 
-function testuser(){
-    let test = JSON.stringify({Id: 1}) 
-    console.log(test)
+function testuser() {
+    let test = JSON.stringify({
+        Id: 1
+    })
     fetch("/api/user/getuser", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-          },
+        },
         body: test
     }).then(data => {
         return data.json()
@@ -83,7 +84,7 @@ function loadgames() {
         games.forEach((gm, k) => {
             const gam = new game(gm)
             gam.print()
-            addgame(k, gm)
+            addgame(gam)
         });
         glider = new Glide(".glide", glideropts).mount()
 

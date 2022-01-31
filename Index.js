@@ -2,7 +2,9 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const api = require('./api/gt_api');
-const { userdb } = require('./mysql/userdb');
+const {
+    userdb
+} = require('./mysql/userdb');
 db = require('./mysql/manager');
 db.connect()
 
@@ -20,7 +22,7 @@ app.use("/scripts", express.static('scripts'));
 app.use("/style", express.static('style'));
 app.use("/img", express.static('images'));
 
-app.use(bodyParser.json()) 
+app.use(bodyParser.json())
 
 
 app.use("/node_modules", express.static('node_modules'));
@@ -32,15 +34,23 @@ app.get('/', function (request, response, next) {
 });
 
 app.get('/login', function (request, response, next) {
-    response.render('login', { title: "GameTopia | Login", script: "scripts/loginfrontend.js" });
+    response.render('login', {
+        title: "GameTopia | Login",
+        script: "scripts/loginfrontend.js"
+    });
 });
 
 app.get('/create', function (request, response, next) {
-    response.render('creategames', { script: "scripts/creategames.js" });
+    response.render('creategames', {
+        script: "scripts/creategames.js"
+    });
 });
 
 app.get('/*', function (request, response, next) {
-    response.render('404', { title: "GameTopia", ignorescript: true });
+    response.render('404', {
+        title: "GameTopia",
+        ignorescript: true
+    });
 });
 app.use(express.json());
 app.listen(port, function () {
