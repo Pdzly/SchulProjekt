@@ -11461,23 +11461,19 @@ fieldset:disabled .btn {
   background-color: #99e1d9;
 }
 
-/* width */
 ::-webkit-scrollbar {
   width: 10px;
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #888;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #99e1d9;
 }
@@ -11627,11 +11623,21 @@ a:not(a:hover) {
 .glide__track {
   width: 100%;
   height: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .glide__slide--active > img {
   border: 5px dotted black;
   height: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .glide__slide {
@@ -11639,12 +11645,22 @@ a:not(a:hover) {
       -ms-grid-row-align: center;
       align-self: center;
   height: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .glide__slides {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .gamepreview {

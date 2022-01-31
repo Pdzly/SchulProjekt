@@ -4,9 +4,14 @@
 <head>
     <meta charset="utf-8">
     {{#if script}}
+    
+    {{#unless ignorescript}}
     <script src="{{script}}" defer type="module"></script>
+    {{/unless}}
     {{else}}
+    {{#unless ignorescript}}
     <script src="scripts/frontend.js" defer type="module"></script>
+    {{/unless}}
     {{/if}}
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>

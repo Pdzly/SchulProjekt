@@ -59,6 +59,22 @@ function addgame(key, data) {
     gl.appendChild(li)
 }
 
+function testuser(){
+    let test = JSON.stringify({Id: 1}) 
+    console.log(test)
+    fetch("/api/user/getuser", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: test
+    }).then(data => {
+        return data.json()
+    }).then(data => {
+        console.log(data)
+    })
+}
+
 function loadgames() {
     fetch("/api/games/getgames").then(data => {
         return data.json()
@@ -71,6 +87,8 @@ function loadgames() {
         });
         glider = new Glide(".glide", glideropts).mount()
 
+    }).catch(err => {
+        console.error(err)
     });
 
 }
@@ -80,6 +98,8 @@ function domove(move) {
         glider.go(move)
     }
 }
+
+window.domove = domove
 //#endregion
 
 //#region To-Do
@@ -91,4 +111,5 @@ function opendetails() {
 
 //#region Init
 loadgames()
+testuser()
 //#endregion

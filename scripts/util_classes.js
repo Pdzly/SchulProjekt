@@ -35,14 +35,10 @@ export class game {
     }
 
     print() {
-        console.groupCollapsed("Game Instanz")
-        console.log("Bezeichnung: " + this.Bezeichnung)
-        console.log("Erscheinungsjahr: " + this.Erscheinungsjahr)
-        console.log("FSKZiffer: " + this.FSKZiffer)
-        console.groupEnd()
+        prettyprint(this, "Game Instanz  -  " + this.Bezeichnung)
     }
 
-    remove(){
+    remove() {
         registeredgames[this.SpielID] = undefined
         delete this
     }
@@ -51,4 +47,12 @@ export class game {
         return registeredgames[id] ?? false
     }
 
+}
+
+export function prettyprint(obj, name) {
+    console.groupCollapsed(name ?? "Pretty Print")
+    for (const [key, value] of Object.entries(obj)) {
+        console.log(`${key}: ${value}`)
+    }
+    console.groupEnd()
 }

@@ -1,5 +1,6 @@
-var mysql = require('mysql');
-var con = mysql.createConnection({
+const mysql = require('mysql');
+const { userdb } = require('../mysql/userdb');
+const con = mysql.createConnection({
     host: '5.104.107.59',
     user: 'gametopia_user',
     password: '#1742Dad123#',
@@ -33,7 +34,6 @@ let db = {
         })
     },
     querysimple: function (table, select, where) {
-      
         return new Promise(function (resolve, reject) {
             if(con.state === 'disconnected'){
                 reject("Datenbankverbindungs wurde unterbrochen")
@@ -50,6 +50,33 @@ let db = {
                 where = "WHERE " + where
             }
             let sql = String.format("SELECT {0} FROM {1} {2}", select, table, where)
+            return con.query(sql, function (err, rows, fields) {
+                // Call reject on error states,
+                // call resolve with results
+                if (err) {
+                    return reject(err);
+                }
+                resolve({ rows: rows, fields: fields });
+            });
+        })
+    },
+    querycomplex: function (querystring) {
+        return new Promise(function (resolve, reject) {
+            if(con.state === 'disconnected'){
+                reject("Datenbankverbindungs wurde unterbrochen")
+              }
+            if (!table) {
+                throw "Ein Table ist notwendig!"
+            }
+            if (!select) {
+                select = "*"
+            }
+            if (!where) {
+                where = ""
+            } else {
+                where = "WHERE " + where
+            }
+            let sql = querystring
             return con.query(sql, function (err, rows, fields) {
                 // Call reject on error states,
                 // call resolve with results
