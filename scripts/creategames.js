@@ -28,7 +28,7 @@ function LoadPlatform() {
 }
 
 function LoadReleaser() {
-    fetch("/api/games/getreleaser").then(data => {
+    fetch("/api/games/getstudio").then(data => {
         return data.json()
     }).then(data => {
         console.log(data)

@@ -1,6 +1,6 @@
 const registeredgames = {}
 const registeredplatforms = {}
-const registeredstudios= {}
+const registeredstudios = {}
 let gl
 const gtclass = "ind-gametitle"
 let gt
@@ -101,8 +101,8 @@ export class game {
         prettyprint(this, "Game Instanz  -  " + this.Bezeichnung)
     }
 
-    parseplatforms(){
-        
+    parseplatforms() {
+
     }
 
     remove() {
@@ -202,19 +202,19 @@ export class studio {
             this.Bezeichnung = Bezeichnung ?? false
             this.StudioURL = StudioURL ?? false
         }
-        registeredplatforms[this.StudioID] = this
+        registeredstudios[this.StudioID] = this
     }
     remove() {
-        registeredplatforms[this.StudioID] = undefined
+        registeredstudios[this.StudioID] = undefined
         delete this
     }
     static getstudiobyid(id) {
         return Promise((res, rej) => {
-            const plat = registeredplatforms[id]
+            const plat = registeredstudios[id]
             if (plat) {
                 res(plat)
             } else {
-                fetch("/api/games/getplattform", {
+                fetch("/api/games/findstudio", {
                     method: "POST",
                     body: JSON.stringify({
                         Id: id
@@ -225,22 +225,22 @@ export class studio {
                     if (data.success) {
                         res(data.data)
                     } else {
-                        rej("Keine Plattform gefunden!")
+                        rej("Kein Studio gefunden!")
                     }
                 })
             }
         })
     }
 
-    static getplatformbyName(name) {
+    static getstudiobyname(name) {
         return Promise((res, rej) => {
-            const plat = registeredplatforms.find(obj => {
+            const plat = registeredstudios.find(obj => {
                 return obj.Bezeichnung === name
             })
             if (plat) {
                 res(plat)
             } else {
-                fetch("/api/games/getplattform", {
+                fetch("/api/games/findstudio", {
                     method: "POST",
                     body: JSON.stringify({
                         Bezeichnung: name
@@ -251,7 +251,7 @@ export class studio {
                     if (data.success) {
                         res(data.data)
                     } else {
-                        rej("Keine Plattform gefunden!")
+                        rej("Kein Studio gefunden!")
                     }
                 })
             }
