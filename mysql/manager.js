@@ -65,17 +65,6 @@ let db = {
             if(con.state === 'disconnected'){
                 reject("Datenbankverbindungs wurde unterbrochen")
               }
-            if (!table) {
-                throw "Ein Table ist notwendig!"
-            }
-            if (!select) {
-                select = "*"
-            }
-            if (!where) {
-                where = ""
-            } else {
-                where = "WHERE " + where
-            }
             let sql = querystring
             return con.query(sql, function (err, rows, fields) {
                 // Call reject on error states,

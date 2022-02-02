@@ -11481,17 +11481,15 @@ fieldset:disabled .btn {
 html {
   scroll-behavior: smooth;
   width: calc(100vw - 10px);
-  position: relative;
+  height: 100vh;
 }
 
 body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   width: 100%;
-  max-width: 100%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  height: 100%;
+  scroll-behavior: auto;
 }
 
 h1, .h1 {
@@ -11535,7 +11533,7 @@ a:not(a:hover) {
   transition: all 1s ease;
 }
 
-#ind-gamed {
+#ind-game {
   display: block;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -11544,8 +11542,9 @@ a:not(a:hover) {
   height: -moz-fit-content;
   height: fit-content;
   min-width: 75%;
-  min-height: 50%;
-  max-height: 100%;
+  max-width: 80%;
+  min-height: 25%;
+  max-height: 100vh;
   margin-top: 50px;
   margin-right: auto;
   margin-left: auto;
@@ -11554,6 +11553,18 @@ a:not(a:hover) {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   background-color: #99e1d9;
+}
+
+#ind-gametitle {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+}
+
+#ind-gamedesc {
+  width: 80%;
+  margin: auto;
+  text-align: center;
 }
 
 #impressum {

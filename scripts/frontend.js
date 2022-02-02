@@ -13,22 +13,17 @@ var games = []
 const glideropts = {
     breakpoints: {
         1700: {
-            perView: 3,
+            perView: 2,
             peek: 150,
         },
         1000: {
-            perView: 2,
-            peek: 100,
-        },
-        500: {
             perView: 1,
-            peek: 0,
-
-        }
+            peek: 50,
+        },
     },
     type: 'carousel',
     startAt: 0,
-    perView: 5,
+    perView: 4,
     peek: 250,
     animationDuration: 800,
     animationTimingFunc: "ease",
@@ -39,26 +34,6 @@ const glideropts = {
 //#endregion
 
 //#region Main
-
-function addgame(data) {
-    let li = document.createElement("li")
-    li.classList.add("glide_slide")
-
-    let img = document.createElement("img")
-    img.classList.add("gamepreview")
-    if (data.URL != null) {
-        img.src = "/img/start/" + data.URL
-    } else {
-        img.src = "/img/example.jpg"
-    }
-    li.appendChild(img)
-
-    if (!gl) {
-        gl = document.getElementById("slides")
-    }
-    gl.appendChild(li)
-}
-
 function testuser() {
     let test = JSON.stringify({
         Id: 1
@@ -76,18 +51,56 @@ function testuser() {
     })
 }
 
+function dohighlight() {
+    let activegame = document.querySelector(".glide__slide--active > img")
+    if (!activegame) return
+    let gameinst = game.findgamebyid(activegame.id)
+    if (gameinst) {
+        gameinst.highlighted()
+    }
+}
+
 function loadgames() {
-    fetch("/api/games/getgames").then(data => {
+    fetch("/api/games/findgame", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Id: "26"
+        })
+    }).then(data => {
         return data.json()
     }).then(data => {
+        if(!data.success) return
+        console.log(data)
         games = data.data.rows
         games.forEach((gm, k) => {
             const gam = new game(gm)
             gam.print()
-            addgame(gam)
+            gam.addtoglide("slides")
         });
-        glider = new Glide(".glide", glideropts).mount()
-
+    }).catch(err => {
+        console.error(err)
+    });
+    fetch("/api/games/gethighlights").then(data => {
+        return data.json()
+    }).then(data => {
+        console.log(data)
+        games = data.data.rows
+        games.forEach((gm, k) => {
+            const gam = new game(gm)
+            gam.print()
+            gam.addtoglide("slides")
+        });
+        glider = new Glide(".glide", glideropts)
+        glider.on(['swipe.end', 'run.after'], function () {
+            dohighlight()
+        })
+        glider.on(['build.after'], function () {
+            dohighlight()
+        })
+        glider.mount()
     }).catch(err => {
         console.error(err)
     });

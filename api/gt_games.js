@@ -72,6 +72,47 @@ router.get('/getgames', function (req, res, next) {
     })
 });
 
+router.post('/findgame', function (req, res, next) {
+    const data = req.body
+    console.log(data)
+    let tosearch = ""
+    if(data.Id){
+        tosearch = " SpielID = " + data.Id
+    }else if(data.Bezeichnung){
+        tosearch = " Bezeichnung = " + data.Bezeichnung
+    }else{
+        res.json({success: false, reason: "Keine Suchparameter"})
+        return
+    }
+
+    db.querysimple("spielemaster", "*", tosearch).then(data => {
+        res.json({
+            success: true,
+            data: data
+        });
+    }, rej => {
+        res.json({
+            success: false,
+            fuck: true
+        })
+    })
+});
+
+router.get('/gethighlights', function (req, res, next) {
+    db.querycomplex("SELECT * FROM spielemaster ORDER BY RAND() LIMIT 25 ").then(data => {
+        res.json({
+            success: true,
+            data: data
+        });
+    }, rej => {
+        console.log(rej)
+        res.json({
+            success: false,
+            fuck: true
+        })
+    })
+});
+
 router.get('/getgenres', function (req, res, next) {
     db.querysimple("Genre", "*").then(data => {
         res.json({
@@ -82,14 +123,31 @@ router.get('/getgenres', function (req, res, next) {
 
 });
 
-router.get('/getplatform', function (req, res, next) {
+router.get('/getplattform', function (req, res, next) {
     db.querysimple("Plattform", "*").then(data => {
         res.json({
             success: true,
             data: data
         });
     })
+});
 
+router.post('/getplattform', function (req, res, next) {
+    const data = req.body
+    let tosearch = ""
+    if(data.Id){
+        tosearch = " PlattformID = " + data.Id
+    }else if(data.Bezeichnung){
+        tosearch = " Bezeichnung = " + data.Bezeichnung
+    }else{
+        res.json({success: false, reason: "Keine Suchparameter"})
+    }
+    db.querysimple("Plattform", "*", tosearch).then(data => {
+        res.json({
+            success: true,
+            data: data
+        });
+    })
 });
 
 router.get('/getreleaser', function (req, res, next) {

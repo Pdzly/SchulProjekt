@@ -2,9 +2,6 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const api = require('./api/gt_api');
-const {
-    userdb
-} = require('./mysql/userdb');
 db = require('./mysql/manager');
 db.connect()
 
