@@ -74,7 +74,6 @@ router.get('/getgames', function (req, res, next) {
 
 router.post('/findgame', function (req, res, next) {
     const data = req.body
-    console.log(data)
     let tosearch = ""
     if (data.Id) {
         tosearch = " SpielID = " + data.Id
@@ -135,9 +134,10 @@ router.get('/getplattform', function (req, res, next) {
     })
 });
 
-router.post('/getplattform', function (req, res, next) {
+router.post('/findplattform', function (req, res, next) {
     const data = req.body
     let tosearch = ""
+    console.log(data)
     if (data.Id) {
         tosearch = " PlattformID = " + data.Id
     } else if (data.Bezeichnung) {
@@ -147,6 +147,7 @@ router.post('/getplattform', function (req, res, next) {
             success: false,
             reason: "Keine Suchparameter"
         })
+        return
     }
     db.querysimple("Plattform", "*", tosearch).then(data => {
         res.json({

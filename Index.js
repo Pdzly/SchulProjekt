@@ -37,6 +37,12 @@ app.get('/login', function (request, response, next) {
     });
 });
 
+app.get('/register', function (request, response, next) {
+    response.render('register', {
+        title: "GameTopia | Register",
+        script: "scripts/registerfrontend.js"
+    });
+});
 app.get('/create', function (request, response, next) {
     response.render('creategames', {
         script: "scripts/creategames.js"

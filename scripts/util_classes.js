@@ -6,11 +6,11 @@ const gtclass = "ind-gametitle"
 let gt
 const gdclass = "ind-gamedesc"
 let gd
-
+const gpclass = "ind-gameplatforms"
+let gp
 //#region Game
 export class game {
     constructor(id, Bezeichnung, BildID, StudioID, PlattformID, SPID, Erscheinungsjahr, FSKZiffer, Genres, Kurztext, Plattform, Spielzeit, Studio, StudioURL, URL) {
-        console.log(id)
         if (typeof id === "object") {
             this.SpielID = id.SpielID ?? false
             this.BildID = id.BildID ?? false
@@ -58,12 +58,12 @@ export class game {
     }
 
     getplatforms() {
-        return Promise((res, rej) => {
-            const platforms = []
+        return new Promise((res, rej) => {
+            const plattforms = []
             if (this.Plattform) {
-                platform.getplatformbyid()
+                plattform.getplatformbyid()
             } else {
-                res(platforms)
+                res(plattforms)
             }
         })
     }
@@ -87,22 +87,60 @@ export class game {
         }
         gl.appendChild(li)
     }
+
     highlighted() {
         if (!gt) {
             gt = document.getElementById(gtclass)
         }
+
         if (!gd) {
             gd = document.getElementById(gdclass)
         }
-        gt.innerText = this.Bezeichnung ?? "Kein Titel vorhanden"
-        gd.innerText = this.Kurztext ?? "Keine Beschreibung vorhanden"
+
+        if (!gp) {
+            gp = document.getElementById(gpclass)
+        }
+
+        gp.innerHTML = ""
+
+        gt.innerText = this.Bezeichnung || "Kein Titel vorhanden"
+        gd.innerText = this.Kurztext || "Keine Beschreibung vorhanden"
+        if (this.plattforms) {
+  
+            this.plattforms.forEach(platt => {
+                platt.highlight()
+            })
+        }
     }
+
     print() {
         prettyprint(this, "Game Instanz  -  " + this.Bezeichnung)
     }
 
-    parseplatforms() {
+    parseplattforms() {
+        return new Promise((res, rej) => {
+            if (!this.PlattformID || typeof this.PlattformID === "undefined") {
+                rej("PlattformID ist kein Array")
+                return
+            }
 
+            this.plattforms = []
+            const promises = []
+            this.PlattformID.forEach(plattfid => {
+                promises.insert(0, plattform.getplatformbyid(plattfid).then(platt => {
+                    if (platt) {
+                        this.plattforms.insert(0, new plattform(platt))
+                    }
+                }, err => {
+                    console.log(err)
+                }))
+
+            })
+            Promise.all(promises).then(() => {
+                res(this.plattforms)
+            })
+            return
+        })
     }
 
     remove() {
@@ -111,17 +149,76 @@ export class game {
     }
 
     static findgamebyid(id) {
-        return registeredgames[id] ?? false
+        if (registeredgames[id]) {
+            return registeredgames[id]
+        } else {
+            fetch("/api/games/findgame", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Id: id
+                })
+            }).then(data => {
+                return data.json()
+            }).then(data => {
+                if (!data.success) return
+                let games = data.data.rows
+                if (games[0]) {
+                    const gam = new game(games[0])
+                    return gam
+                } else {
+                    throw "Keine Spiele gefunden!"
+                }
+            }).catch(err => {
+                console.error(err)
+                rej(err)
+            });
+        }
+    }
+
+    static findgamebyname(name) {
+        let game = registeredgames.find(dat => {
+            return dat.Bezeichnung == name
+        })
+        if (game) {
+            return game
+        } else {
+            fetch("/api/games/findgame", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Bezeichnung: name
+                })
+            }).then(data => {
+                return data.json()
+            }).then(data => {
+                if (!data.success) return
+                games = data.data.rows
+                if (gm[0]) {
+                    const gam = new game(gm[0])
+                    return gam
+                } else {
+                    throw "Keine Spiele gefunden!"
+                }
+            }).catch(err => {
+                console.error(err)
+                rej(err)
+            });
+        }
     }
 
 }
 //#endregion
 
-//#region Platform
-export class platform {
-    constructor(PlatformID, Bezeichnung, BildURL) {
-        if (typeof PlatformID === "object") {
-            this.PlattformID = PlattformID.PlatformID ?? false
+//#region plattform
+export class plattform {
+    constructor(PlattformID, Bezeichnung, BildURL) {
+        if (typeof PlattformID === "object") {
+            this.PlattformID = PlattformID.PlattformID ?? false
             this.Bezeichnung = PlattformID.Bezeichnung ?? false
             this.BildURL = PlattformID.BildURL ?? false
         } else {
@@ -130,22 +227,42 @@ export class platform {
             this.BildURL = BildURL ?? false
         }
         if (this.BildURL && !this.BildURL.startsWith("/plattform/")) {
-            this.BildURL = "/plattform/" + this.BildURL
+            this.BildURL = "/img/plattform/" + this.BildURL
         }
-        registeredplatforms[this.PlatformID] = this
+        registeredplatforms[this.PlattformID] = this
     }
+
     remove() {
-        registeredplatforms[this.PlatformID] = undefined
+        registeredplatforms[this.PlattformID] = undefined
         delete this
     }
+
+    highlight() {
+        if (!gp) {
+            gp = document.getElementById(gpclass)
+        }
+        if (document.getElementById(this.PlattformID)) {
+            return
+        }
+        const img = document.createElement("img")
+        img.classList.add("plattformicon")
+        img.id = this.PlattformID
+        img.src = this.BildURL
+
+        gp.appendChild(img)
+    }
+
     static getplatformbyid(id) {
-        return Promise((res, rej) => {
+        return new Promise((res, rej) => {
             const plat = registeredplatforms[id]
             if (plat) {
                 res(plat)
             } else {
-                fetch("/api/games/getplattform", {
-                    method: "POST",
+                fetch("/api/games/findplattform", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         Id: id
                     })
@@ -153,7 +270,13 @@ export class platform {
                     return data.json()
                 }).then(data => {
                     if (data.success) {
-                        res(data.data)
+                        if (data.data.rows[0]) {
+                            new plattform(data.data.rows[0])
+                            res(data.data.rows[0])
+                            return
+                        } else {
+                            rej("Keine Plattform gefunden!")
+                        }
                     } else {
                         rej("Keine Plattform gefunden!")
                     }
@@ -161,15 +284,16 @@ export class platform {
             }
         })
     }
+
     static getplatformbyName(name) {
-        return Promise((res, rej) => {
+        return new Promise((res, rej) => {
             const plat = registeredplatforms.find(obj => {
                 return obj.Bezeichnung === name
             })
             if (plat) {
                 res(plat)
             } else {
-                fetch("/api/games/getplattform", {
+                fetch("/api/games/findplattform", {
                     method: "POST",
                     body: JSON.stringify({
                         Bezeichnung: name
@@ -208,8 +332,9 @@ export class studio {
         registeredstudios[this.StudioID] = undefined
         delete this
     }
+
     static getstudiobyid(id) {
-        return Promise((res, rej) => {
+        return new Promise((res, rej) => {
             const plat = registeredstudios[id]
             if (plat) {
                 res(plat)
@@ -233,7 +358,7 @@ export class studio {
     }
 
     static getstudiobyname(name) {
-        return Promise((res, rej) => {
+        return new Promise((res, rej) => {
             const plat = registeredstudios.find(obj => {
                 return obj.Bezeichnung === name
             })
@@ -270,4 +395,16 @@ export function prettyprint(obj, name) {
     console.log(obj)
     console.groupEnd()
 }
+
+export function getStyleSheet(unique_title) {
+    for (const sheet of document.styleSheets) {
+        if (sheet.title === unique_title) {
+            return sheet;
+        }
+    }
+}
+
+Array.prototype.insert = function (index, item) {
+    this.splice(index, 0, item);
+};
 //#endregion

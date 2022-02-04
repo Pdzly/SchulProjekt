@@ -61,6 +61,13 @@ function dohighlight() {
 }
 
 function loadgames() {
+    glider = new Glide(".glide", glideropts)
+
+    glider.on(['swipe.end', 'run.after', 'build.after'], function () {
+        dohighlight()
+    })
+    const prom = []
+
     fetch("/api/games/findgame", {
         method: 'POST',
         headers: {
@@ -72,39 +79,37 @@ function loadgames() {
     }).then(data => {
         return data.json()
     }).then(data => {
-        if(!data.success) return
-        console.log(data)
+        if (!data.success) return
         games = data.data.rows
         games.forEach((gm, k) => {
             const gam = new game(gm)
-            gam.print()
+
+            if (gam.PlattformID && Array.isArray(gam.PlattformID)) {
+                prom.insert(0, gam.parseplattforms())
+            }
             gam.addtoglide("slides")
         });
-    }).catch(err => {
-        console.error(err)
-    });
-    fetch("/api/games/gethighlights").then(data => {
-        return data.json()
-    }).then(data => {
-        console.log(data)
-        games = data.data.rows
-        games.forEach((gm, k) => {
-            const gam = new game(gm)
-            gam.print()
-            gam.addtoglide("slides")
+        fetch("/api/games/gethighlights").then(data => {
+            return data.json()
+        }).then(data => {
+            games = data.data.rows
+            games.forEach((gm, k) => {
+                const gam = new game(gm)
+                if (gam.PlattformID && Array.isArray(gam.PlattformID)) {
+                    prom.insert(0, gam.parseplattforms())
+                }
+                gam.addtoglide("slides")
+            });
+            glider.mount()
+    
+        }).catch(err => {
+            console.error(err)
         });
-        glider = new Glide(".glide", glideropts)
-        glider.on(['swipe.end', 'run.after'], function () {
-            dohighlight()
-        })
-        glider.on(['build.after'], function () {
-            dohighlight()
-        })
-        glider.mount()
     }).catch(err => {
         console.error(err)
     });
 
+    
 }
 
 function domove(move) {
