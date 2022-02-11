@@ -1,6 +1,7 @@
 //#region Imports
 import {
-    game
+    game,
+    LoadBar
 } from "./util_classes.js"
 //#endregion
 
@@ -67,7 +68,7 @@ function loadgames() {
         dohighlight()
     })
     const prom = []
-
+    const loadbar = new LoadBar("loadingbar", "loadingbar", 0, 26)
     fetch("/api/games/findgame", {
         method: 'POST',
         headers: {
@@ -83,6 +84,7 @@ function loadgames() {
         games = data.data.rows
         games.forEach((gm, k) => {
             const gam = new game(gm)
+            loadbar.addpercent(1)
 
             if (gam.PlattformID && Array.isArray(gam.PlattformID)) {
                 prom.insert(0, gam.parseplattforms())
@@ -95,13 +97,17 @@ function loadgames() {
             games = data.data.rows
             games.forEach((gm, k) => {
                 const gam = new game(gm)
+                loadbar.addpercent(1)
                 if (gam.PlattformID && Array.isArray(gam.PlattformID)) {
                     prom.insert(0, gam.parseplattforms())
                 }
                 gam.addtoglide("slides")
             });
+      
             glider.mount()
-    
+            setTimeout(() => {
+                document.getElementById("ind-loaderdiv").remove()
+            }, 1000);
         }).catch(err => {
             console.error(err)
         });
@@ -109,9 +115,13 @@ function loadgames() {
         console.error(err)
     });
 
-    
-}
 
+}
+/*
+      setTimeout(() => {
+                document.getElementById("ind-loaderdiv").remove()
+            }, 2500);
+*/
 function domove(move) {
     if (glider != null) {
         glider.go(move)

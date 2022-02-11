@@ -8,6 +8,19 @@ const gdclass = "ind-gamedesc"
 let gd
 const gpclass = "ind-gameplatforms"
 let gp
+
+
+//#region Usermanager
+export class usermanager {
+    static checkuser(username, pw) {
+        //Dochecking
+        return new Promise((res, rej) => {
+            res(username + " und passwort " + pw + " ist korrekt")
+        })
+    }
+}
+//#endregion
+
 //#region Game
 export class game {
     constructor(id, Bezeichnung, BildID, StudioID, PlattformID, SPID, Erscheinungsjahr, FSKZiffer, Genres, Kurztext, Plattform, Spielzeit, Studio, StudioURL, URL) {
@@ -106,7 +119,7 @@ export class game {
         gt.innerText = this.Bezeichnung || "Kein Titel vorhanden"
         gd.innerText = this.Kurztext || "Keine Beschreibung vorhanden"
         if (this.plattforms) {
-  
+
             this.plattforms.forEach(platt => {
                 platt.highlight()
             })
@@ -386,7 +399,74 @@ export class studio {
 }
 //#endregion
 
+//#region Loading
+
+export class LoadBar {
+    constructor(loadingbarid, loadinglabelid, min, max) {
+        this.lbid = loadingbarid
+        this.loadingbar = document.getElementById(this.lbid)
+        if (!this.loadingbar) {
+            throw new Error("Es gibt die Loadingbar ID nicht")
+        }
+        this.llid = loadinglabelid
+        this.loadinglabel = document.getElementById(this.llid)
+        this.min = min
+        this.max = max
+        this.percent = 0
+        this.applychanges()
+    }
+
+    setmax(newmax) {
+        this.max = newmax
+        this.applychanges()
+    }
+
+    setpercent(newper) {
+        if (newper > this.max) {
+            this.percent = this.max
+        } else {
+            this.percent = newper
+        }
+        this.percent = newper
+        this.applychanges()
+    }
+
+    addpercent(addper) {
+        this.percent = this.percent + addper
+        this.applychanges()
+    }
+
+    applychanges() {
+        if (this.loadinglabel) {
+            this.loadinglabel.innerText = (this.percent / this.max) * 100 + "%"
+        }
+        if (this.loadingbar) {
+            this.loadingbar.style.width = (this.percent / this.max) * 100 + "%"
+            this.loadingbar.setAttribute("aria-valuemin", this.min)
+            this.loadingbar.setAttribute("aria-valuemax", this.max)
+            this.loadingbar.setAttribute("aria-valuenow", this.percent / this.max)
+        }
+    }
+}
+//aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+//#endregion
+
 //#region Utils
+
+String.prototype.hash = function (seed = 0) {
+    let h1 = 0xdeadbeef ^ seed,
+        h2 = 0x41c6ce57 ^ seed;
+    for (let i = 0, ch; i < this.length; i++) {
+        ch = this.charCodeAt(i);
+        h1 = Math.imul(h1 ^ ch, 2654435761);
+        h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+};
+
+
 export function prettyprint(obj, name) {
     console.groupCollapsed(name ?? "Pretty Print")
     for (const [key, value] of Object.entries(obj)) {

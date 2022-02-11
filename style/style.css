@@ -11027,6 +11027,34 @@ a:not(a:hover) {
   width: 100%;
 }
 
+#ind-loaderdiv {
+  position: relative;
+  display: table;
+  z-index: 500;
+  background-color: #9b9a9a;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 100%;
+  height: 25%;
+}
+
+#ind-loaderlabel {
+  display: table-cell;
+  right: 0;
+  width: 75%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#ind-loader {
+  position: absolute;
+  top: 25%;
+  left: 25px;
+  padding-left: 5%;
+  padding-top: 5%;
+}
+
 .plattformicon {
   width: 5%;
 }
