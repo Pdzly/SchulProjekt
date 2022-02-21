@@ -33,7 +33,7 @@ let db = {
             console.log("Erfolgreich Verbunden")
         })
     },
-    querysimple: function (table, select, where) {
+    querySimple: function (table, select, where) {
         return new Promise(function (resolve, reject) {
             if(con.state === 'disconnected'){
                 reject("Datenbankverbindungs wurde unterbrochen")

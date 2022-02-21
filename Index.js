@@ -30,6 +30,13 @@ app.get('/', function (request, response, next) {
     response.render('homepage');
 });
 
+app.get('/game', function (request, response, next) {
+    if(request.query["id"]){
+        response.render('game', {title: "GameTopia | Detail", ignorescript: true, script: "scripts/gamefrontend.js"});
+    }else{next("Kein Spiel gefunden!")}
+});
+
+
 app.get('/login', function (request, response, next) {
     response.render('login', {
         title: "GameTopia | Login",
@@ -52,10 +59,9 @@ app.get('/create', function (request, response, next) {
 app.get('/*', function (request, response, next) {
     response.render('404', {
         title: "GameTopia",
-        ignorescript: true
+        ignorescript: true,
     });
 });
-app.use(express.json());
 app.listen(port, function () {
     console.log('Running on ' + port);
 });

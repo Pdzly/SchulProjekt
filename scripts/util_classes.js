@@ -1,6 +1,7 @@
 const registeredgames = {}
 const registeredplatforms = {}
 const registeredstudios = {}
+const registeredbilder = {}
 let gl
 const gtclass = "ind-gametitle"
 let gt
@@ -23,10 +24,10 @@ export class usermanager {
 
 //#region Game
 export class game {
-    constructor(id, Bezeichnung, BildID, StudioID, PlattformID, SPID, Erscheinungsjahr, FSKZiffer, Genres, Kurztext, Plattform, Spielzeit, Studio, StudioURL, URL) {
+    constructor(id, Bezeichnung, BildIDs, StudioID, PlattformID, SPID, Erscheinungsjahr, FSKZiffer, Genres, Kurztext, Plattform, Spielzeit, Studio, StudioURL, URL) {
         if (typeof id === "object") {
             this.SpielID = id.SpielID ?? false
-            this.BildID = id.BildID ?? false
+            this.BildIDs = id.BildIDs ?? false
             this.StudioID = id.StudioID ?? false
             this.PlattformID = id.PlattformID ?? false
             this.SPID = id.SPID ?? false
@@ -39,11 +40,10 @@ export class game {
             this.Spielzeit = id.Spielzeit ?? false
             this.Studio = id.Studio ?? false
             this.StudioURL = id.StudioURL ?? false
-            this.URL = id.URL ?? false
         } else {
             this.SpielID = SpielID ?? false
             this.Bezeichnung = Bezeichnung ?? false
-            this.BildID = BildID ?? false
+            this.BildIDs = BildIDs ?? false
             this.StudioID = StudioID ?? false
             this.PlattformID = PlattformID ?? false
             this.SPID = SPID ?? false
@@ -55,17 +55,18 @@ export class game {
             this.Spielzeit = Spielzeit ?? false
             this.Studio = Studio ?? false
             this.StudioURL = StudioURL ?? false
-            this.URL = URL ?? false
         }
         if (this.PlattformID) {
-            this.PlattformID = this.PlattformID?.split("; ") ?? false
-
+            this.PlattformID = this.PlattformID?.split("; ") ?? [this.PlattformID] ?? false
         }
         if (this.Plattform) {
-            this.Plattform = this.Plattform?.split("; ") ?? false
+            this.Plattform = this.Plattform?.split("; ") ?? [this.Plattform] ?? false
         }
         if (this.Genres) {
-            this.Genres = this.Genres?.split("; ") ?? false
+            this.Genres = this.Genres?.split("; ") ?? [this.Genres] ?? false
+        }
+        if (this.BildIDs) {
+            this.BildIDs = this.BildIDs?.split("; ") ?? [this.BildIDs] ?? false
         }
         registeredgames[this.SpielID] = this
     }
@@ -74,7 +75,22 @@ export class game {
         return new Promise((res, rej) => {
             const plattforms = []
             if (this.Plattform) {
-                plattform.getplatformbyid()
+                this.Plattform.forEach(platt => {
+                    plattforms.push(plattform.getplatformbyid(platt))
+                })
+            } else {
+                res(plattforms)
+            }
+        })
+    }
+
+    getplatforms() {
+        return new Promise((res, rej) => {
+            const bilder = []
+            if (this.BildIDs) {
+                this.BildIDs.forEach(bild => {
+                    bilder.push(plattform.getplatformbyid(platt))
+                })
             } else {
                 res(plattforms)
             }
@@ -88,8 +104,13 @@ export class game {
         let img = document.createElement("img")
         img.classList.add("gamepreview")
         img.id = this.SpielID
-        if (this.URL) {
-            img.src = "/img/start/" + this.URL
+        if (Array.isArray(this.BildIDs) && this.BildIDs[0]) {
+            bild.getBildById(this.BildIDs[0]).then(val => {
+                console.log(val)
+                img.src = "/img/start/" + val.URL
+            }, er => {
+                console.log(er)
+            })
         } else {
             img.src = "/img/example.jpg"
         }
@@ -119,10 +140,12 @@ export class game {
         gt.innerText = this.Bezeichnung || "Kein Titel vorhanden"
         gd.innerText = this.Kurztext || "Keine Beschreibung vorhanden"
         if (this.plattforms) {
-
             this.plattforms.forEach(platt => {
                 platt.highlight()
             })
+        }
+        if (this.BildIDs[0]) {
+
         }
     }
 
@@ -130,7 +153,7 @@ export class game {
         prettyprint(this, "Game Instanz  -  " + this.Bezeichnung)
     }
 
-    parseplattforms() {
+    parsePlattforms() {
         return new Promise((res, rej) => {
             if (!this.PlattformID || typeof this.PlattformID === "undefined") {
                 rej("PlattformID ist kein Array")
@@ -156,39 +179,69 @@ export class game {
         })
     }
 
+    parseBilder() {
+        return new Promise((res, rej) => {
+            if (!this.BildIDs || typeof this.BildIDs === "undefined") {
+                res(false)
+                return
+            }
+
+            this.bilder = []
+            const promises = []
+            this.BildIDs.forEach(bildid => {
+                console.log(bildid)
+                promises.insert(0, bild.getBildById(bildid).then(bld => {
+                    if (bld) {
+                        this.bilder.insert(0, new bild(bld))
+                    }
+                }, err => {
+                    console.log(err)
+                }))
+
+            })
+            Promise.all(promises).then(() => {
+                res(this.bilder)
+            })
+            return
+        })
+    }
+
     remove() {
         registeredgames[this.SpielID] = undefined
         delete this
     }
 
     static findgamebyid(id) {
-        if (registeredgames[id]) {
-            return registeredgames[id]
-        } else {
-            fetch("/api/games/findgame", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    Id: id
-                })
-            }).then(data => {
-                return data.json()
-            }).then(data => {
-                if (!data.success) return
-                let games = data.data.rows
-                if (games[0]) {
-                    const gam = new game(games[0])
-                    return gam
-                } else {
-                    throw "Keine Spiele gefunden!"
-                }
-            }).catch(err => {
-                console.error(err)
-                rej(err)
-            });
-        }
+        return new Promise((res, rej) => {
+            if (registeredgames[id]) {
+                res(registeredgames[id])
+            } else {
+                fetch("/api/games/findgame", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Id: id
+                    })
+                }).then(data => {
+                    return data.json()
+                }).then(data => {
+                    if (!data.success) return
+                    let games = data.data.rows
+                    if (games[0]) {
+                        const gam = new game(games[0])
+                        res(gam)
+                    } else {
+                        throw "Keine Spiele gefunden!"
+                    }
+                }).catch(err => {
+                    console.error(err)
+                    rej(err)
+                });
+            }
+        })
+
     }
 
     static findgamebyname(name) {
@@ -239,7 +292,7 @@ export class plattform {
             this.Bezeichnung = Bezeichnung ?? false
             this.BildURL = BildURL ?? false
         }
-        if (this.BildURL && !this.BildURL.startsWith("/plattform/")) {
+        if (this.BildURL && !this.BildURL.startsWith("/img/plattform/")) {
             this.BildURL = "/img/plattform/" + this.BildURL
         }
         registeredplatforms[this.PlattformID] = this
@@ -254,14 +307,11 @@ export class plattform {
         if (!gp) {
             gp = document.getElementById(gpclass)
         }
-        if (document.getElementById(this.PlattformID)) {
-            return
-        }
         const img = document.createElement("img")
         img.classList.add("plattformicon")
         img.id = this.PlattformID
         img.src = this.BildURL
-
+        img.title = this.Bezeichnung
         gp.appendChild(img)
     }
 
@@ -387,9 +437,93 @@ export class studio {
                     return data.json()
                 }).then(data => {
                     if (data.success) {
+                        new studio(data.data)
                         res(data.data)
                     } else {
                         rej("Kein Studio gefunden!")
+                    }
+                })
+            }
+        })
+
+    }
+}
+//#endregion
+
+//#region Bild
+export class bild {
+    constructor(BildID, Spiel, URL, BildGroesse) {
+        if (typeof BildID === "object") {
+            this.BildID = BildID.BildID ?? false
+            this.Spiel = BildID.Spiel ?? false
+            this.URL = BildID.URL ?? false
+            this.BildGroesse = BildID.BildGroesse ?? false
+        } else {
+            this.BildID = BildID ?? false
+            this.Spiel = Spiel ?? false
+            this.URL = URL ?? false
+            this.BildGroesse = BildGroesse ?? false
+        }
+        registeredbilder[this.BildID] = this
+    }
+    remove() {
+        registeredbilder[this.BildID] = undefined
+        delete this
+    }
+
+    static getBildById(id) {
+        return new Promise((res, rej) => {
+            const plat = registeredbilder[id]
+            if (plat) {
+                res(plat)
+            } else {
+                fetch("/api/games/findbild", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Id: id
+                    })
+                }).then(data => {
+                    return data.json()
+                }).then(data => {
+                    console.log(data)
+                    if (data.success) {
+                        new bild(data.data.rows[0])
+                        res(data.data.rows[0])
+                    } else {
+                        rej("Kein Bild gefunden!")
+                    }
+                })
+            }
+        })
+    }
+
+    static getBildByGame(name) {
+        return new Promise((res, rej) => {
+            const plat = registeredstudios.find(obj => {
+                return obj.Bezeichnung === name
+            })
+            if (plat) {
+                res(plat)
+            } else {
+                fetch("/api/games/findbild", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Spiel: name
+                    })
+                }).then(data => {
+                    return data.json()
+                }).then(data => {
+                    if (data.success) {
+                        new bild(data.data.rows[0])
+                        res(data.data.rows[0])
+                    } else {
+                        rej("Kein Bild gefunden!")
                     }
                 })
             }

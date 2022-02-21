@@ -55,10 +55,11 @@ function testuser() {
 function dohighlight() {
     let activegame = document.querySelector(".glide__slide--active > img")
     if (!activegame) return
-    let gameinst = game.findgamebyid(activegame.id)
-    if (gameinst) {
+    game.findgamebyid(activegame.id).then(gameinst => {
+        if (gameinst) {
         gameinst.highlighted()
-    }
+    }})
+    
 }
 
 function loadgames() {
@@ -75,7 +76,7 @@ function loadgames() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            Id: "26"
+            Id: "145"
         })
     }).then(data => {
         return data.json()
@@ -87,8 +88,9 @@ function loadgames() {
             loadbar.addpercent(1)
 
             if (gam.PlattformID && Array.isArray(gam.PlattformID)) {
-                prom.insert(0, gam.parseplattforms())
+                prom.insert(0, gam.parsePlattforms())
             }
+            gam.parseBilder()
             gam.addtoglide("slides")
         });
         fetch("/api/games/gethighlights").then(data => {
@@ -99,11 +101,11 @@ function loadgames() {
                 const gam = new game(gm)
                 loadbar.addpercent(1)
                 if (gam.PlattformID && Array.isArray(gam.PlattformID)) {
-                    prom.insert(0, gam.parseplattforms())
+                    prom.insert(0, gam.parsePlattforms())
                 }
+                gam.parseBilder()
                 gam.addtoglide("slides")
             });
-      
             glider.mount()
             setTimeout(() => {
                 document.getElementById("ind-loaderdiv").remove()
@@ -133,12 +135,13 @@ window.domove = domove
 
 //#region To-Do
 function opendetails() {
-
+    
 }
+window.opendetails = opendetails
 //#endregion
 
 
 //#region Init
 loadgames()
-testuser()
+//testuser()
 //#endregion

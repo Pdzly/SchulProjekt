@@ -39,7 +39,7 @@ class userdb {
 
     static getall() {
         return new Promise((res, rej) => {
-            db.querysimple("Benutzer").then(users => {
+            db.querySimple("Benutzer").then(users => {
                 res(users.rows)
 
             }).catch(err => {
@@ -50,7 +50,7 @@ class userdb {
 
     static getbyid(id){
         return new Promise((res, rej) => {
-            db.querysimple("Benutzer", "*", ` BenutzerId=${id}` ).then(user => {
+            db.querySimple("Benutzer", "*", ` BenutzerId=${id}` ).then(user => {
                 res(new userdb(user.rows[0]))
             }).catch(err => {
                 console.log(err)
@@ -61,7 +61,7 @@ class userdb {
 
     static getbybn(bn){
         return new Promise((res, rej) => {
-            db.querysimple("Benutzer", "*", ` Benutzername=${bn}` ).then(user => {
+            db.querySimple("Benutzer", "*", ` Benutzername=${bn}` ).then(user => {
                 res(new userdb(user.rows[0]))
             }).catch(err => {
                 rej(err)
@@ -71,7 +71,7 @@ class userdb {
 
     static getbyemail(email){
         return new Promise((res, rej) => {
-            db.querysimple("Benutzer", "*", ` EMailAdresse=${bn}` ).then(user => {
+            db.querySimple("Benutzer", "*", ` EMailAdresse=${bn}` ).then(user => {
                 res(new userdb(user.rows[0]))
             }).catch(err => {
                 rej(err)

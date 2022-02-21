@@ -59,7 +59,7 @@ router.post('/addgames', function (req, res, next) {
 });
 
 router.get('/getgames', function (req, res, next) {
-    db.querysimple("spielemaster").then(data => {
+    db.querySimple("spielemaster").then(data => {
         res.json({
             success: true,
             data: data
@@ -87,7 +87,7 @@ router.post('/findgame', function (req, res, next) {
         return
     }
 
-    db.querysimple("spielemaster", "*", tosearch).then(data => {
+    db.querySimple("spielemaster", "*", tosearch).then(data => {
         res.json({
             success: true,
             data: data
@@ -116,7 +116,7 @@ router.get('/gethighlights', function (req, res, next) {
 });
 
 router.get('/getgenres', function (req, res, next) {
-    db.querysimple("Genre", "*").then(data => {
+    db.querySimple("Genre", "*").then(data => {
         res.json({
             success: true,
             data: data
@@ -126,7 +126,7 @@ router.get('/getgenres', function (req, res, next) {
 });
 
 router.get('/getplattform', function (req, res, next) {
-    db.querysimple("Plattform", "*").then(data => {
+    db.querySimple("Plattform", "*").then(data => {
         res.json({
             success: true,
             data: data
@@ -137,7 +137,6 @@ router.get('/getplattform', function (req, res, next) {
 router.post('/findplattform', function (req, res, next) {
     const data = req.body
     let tosearch = ""
-    console.log(data)
     if (data.Id) {
         tosearch = " PlattformID = " + data.Id
     } else if (data.Bezeichnung) {
@@ -149,7 +148,30 @@ router.post('/findplattform', function (req, res, next) {
         })
         return
     }
-    db.querysimple("Plattform", "*", tosearch).then(data => {
+    db.querySimple("Plattform", "*", tosearch).then(data => {
+        res.json({
+            success: true,
+            data: data
+        });
+    })
+});
+
+router.post('/findbild', function (req, res, next) {
+    const data = req.body
+    let tosearch = ""
+    console.log(req)
+    if (data.Id) {
+        tosearch = " BildID = " + data.Id
+    } else if (data.Spiel) {
+        tosearch = " Spiel = " + data.Spiel
+    } else {
+        res.json({
+            success: false,
+            reason: "Keine Suchparameter"
+        })
+        return
+    }
+    db.querySimple("Spielbild", "*", tosearch).then(data => {
         res.json({
             success: true,
             data: data
@@ -158,7 +180,7 @@ router.post('/findplattform', function (req, res, next) {
 });
 
 router.get('/getstudio', function (req, res, next) {
-    db.querysimple("Studio", "*").then(data => {
+    db.querySimple("Studio", "*").then(data => {
         res.json({
             success: true,
             data: data
@@ -181,7 +203,7 @@ router.post('/findstudio', function (req, res, next) {
         return
     }
 
-    db.querysimple("Studio", "*", tosearch).then(data => {
+    db.querySimple("Studio", "*", tosearch).then(data => {
         res.json({
             success: true,
             data: data
@@ -195,7 +217,7 @@ router.post('/findstudio', function (req, res, next) {
 });
 
 router.get('/getfsk', function (req, res, next) {
-    db.querysimple("FSK", "*").then(data => {
+    db.querySimple("FSK", "*").then(data => {
         res.json({
             success: true,
             data: data
@@ -217,7 +239,7 @@ router.get('/findfsk', function (req, res, next) {
         })
         return
     }
-    db.querysimple("FSK", "*", tosearch).then(data => {
+    db.querySimple("FSK", "*", tosearch).then(data => {
         res.json({
             success: true,
             data: data
@@ -228,7 +250,7 @@ router.get('/findfsk', function (req, res, next) {
             fuck: true
         })
     })
-    db.querysimple("FSK", "*").then(data => {
+    db.querySimple("FSK", "*").then(data => {
         res.json({
             success: true,
             data: data
