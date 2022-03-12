@@ -1,3 +1,22 @@
-<h1>Please Register to Access Website</h1>
-
-
+<div class="container mt-3">
+  <h2>Bitte die gib deine Daten zum Registrieren ein!</h2>
+      <div class="mb-3 mt-3">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="E-Mail eingeben" name="email">
+    </div>
+    <div class="mb-3 mt-3">
+      <label for="bnn">Benutzername:</label>
+      <input type="benutzername" class="form-control" id="bnn" placeholder="Benutzername eingeben" name="benutzername">
+    </div>
+    <div class="mb-3">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Passwort eingeben" name="pswd">
+    </div>
+    <div class="form-check mb-3">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="remember"> Speichern
+      </label>
+    </div>
+    <button type="button" onclick="window.doregister()" class="btn btn-primary">Absenden</button>
+    <button type="button" onclick="window.location.href ='/login'" class="btn btn-primary">Zum Login</button>
+</div>

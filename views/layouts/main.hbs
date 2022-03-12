@@ -23,8 +23,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200&family=Oswald:wght@200;400&display=swap"
         rel="stylesheet">
     <!-- Filepond stylesheet -->
+    {{#if style}}
+    <link rel="stylesheet" href="style/{{style}}">
+    {{else}}
     <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/theme.css">
+    {{/if}}
+    <link rel="stylesheet" href="style/style_layout.css">
 
     {{#if title}}
     <title>{{title}}</title>

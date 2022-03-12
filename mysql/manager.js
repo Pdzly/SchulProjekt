@@ -49,6 +49,7 @@ let db = {
             } else {
                 where = "WHERE " + where
             }
+
             let sql = String.format("SELECT {0} FROM {1} {2}", select, table, where)
             return con.query(sql, function (err, rows, fields) {
                 // Call reject on error states,

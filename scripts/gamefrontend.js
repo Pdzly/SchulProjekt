@@ -1,40 +1,48 @@
 //#region Imports
 import {
-    game,
-    LoadBar
+    game, setgdclass, setgfclass, setggclass, setgpclass, setgtclass,
 } from "./util_classes.js"
 //#endregion
 
-var glider = null
+function loadgame() {
+    setgtclass("det-headerbox")
+    setggclass("det-genre")
+    setgfclass("det-fsk")
+    setgpclass("det-platform")
+    setgdclass("det-textbox")
+    let par = new URLSearchParams(window.location.search)
 
-const glideropts = {
-    breakpoints: {
-        1700: {
-            perView: 2,
-            peek: 150,
+    let gameid = par.get("id")
+    fetch("/api/games/findgame", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
         },
-        1000: {
-            perView: 1,
-            peek: 50,
-        },
-    },
-    type: 'carousel',
-    startAt: 0,
-    perView: 4,
-    peek: 250,
-    animationDuration: 800,
-    animationTimingFunc: "ease",
-    hoverpause: false,
-    perTouch: 3,
-    focusAt: 'center',
-}
+        body: JSON.stringify({
+            Id: gameid
+        })
+    }).then(data => {
+        return data.json()
+    }).then(data => {
+        if (!data.success) return
+        let games = data.data.rows
+        games.forEach((gm, k) => {
+            const gam = new game(gm)
+            gam.parseAll().then(val => {
+                gam.highlighted()
+                console.log(gam)
+                if(gam.bilder?.length > 0){
+                    document.getElementById("det-img").src = "/img/start/" + gam.bilder[0].URL
+                }else{
+                    document.getElementById("det-img").src = "/img/kbv.png"
+                }
+            })
+            
+        });
+    }).catch(err => {
+        console.error(err)
+    });
 
-function loadgame(){
-    glider = new Glide(".glide", glideropts)
- 
-    const params = new URLSearchParams(window.location.search)
-    let gameid = params.get("id")
-    game.findgamebyid(gameid)
 }
 
 

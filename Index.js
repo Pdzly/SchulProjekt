@@ -31,28 +31,38 @@ app.get('/', function (request, response, next) {
 });
 
 app.get('/game', function (request, response, next) {
-    if(request.query["id"]){
-        response.render('game', {title: "GameTopia | Detail", ignorescript: true, script: "scripts/gamefrontend.js"});
-    }else{next("Kein Spiel gefunden!")}
+    if (request.query["id"]) {
+        response.render('game', { title: "GameTopia | Detail", style: "style_game.css", ignorescript: true, script: "scripts/gamefrontend.js" });
+    } else { next("Kein Spiel gefunden!") }
 });
 
 
 app.get('/login', function (request, response, next) {
     response.render('login', {
         title: "GameTopia | Login",
-        script: "scripts/loginfrontend.js"
+        script: "scripts/loginfrontend.js",
+        ignorescript: true,
     });
 });
 
 app.get('/register', function (request, response, next) {
     response.render('register', {
         title: "GameTopia | Register",
-        script: "scripts/registerfrontend.js"
+        script: "scripts/registerfrontend.js",
+        ignorescript: true,
     });
 });
 app.get('/create', function (request, response, next) {
     response.render('creategames', {
         script: "scripts/creategames.js"
+    });
+});
+
+app.get('/list', function (request, response, next) {
+    response.render('list', {
+        title: "GameTopia",
+        ignorescript: true,
+        style: "style_list.css"
     });
 });
 

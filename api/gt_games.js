@@ -159,7 +159,6 @@ router.post('/findplattform', function (req, res, next) {
 router.post('/findbild', function (req, res, next) {
     const data = req.body
     let tosearch = ""
-    console.log(req)
     if (data.Id) {
         tosearch = " BildID = " + data.Id
     } else if (data.Spiel) {
@@ -172,6 +171,27 @@ router.post('/findbild', function (req, res, next) {
         return
     }
     db.querySimple("Spielbild", "*", tosearch).then(data => {
+        res.json({
+            success: true,
+            data: data
+        });
+    })
+});
+
+router.post('/findFSK', function (req, res, next) {
+    const data = req.body
+    let tosearch = ""
+    if (typeof data.Id === "number" ) {
+        tosearch = " FSKID = " + data.Id
+    } else {
+        res.json({
+            success: false,
+            reason: "Keine Suchparameter",
+            ydata: data
+        })
+        return
+    }
+    db.querySimple("FSK", "*", tosearch).then(data => {
         res.json({
             success: true,
             data: data

@@ -1,35 +1,41 @@
-const cache = {} 
 class userdb {
-    constructor(BenutzerId, Benutzername, Passwort, EMailAdresse, Geburtsdatum, Registrierungsdatum) {
-        if(typeof BenutzerId.Benutzername === "undefined" && typeof Benutzername === "undefined" ){
+    constructor(BenutzerId, Benutzername, Passwort, Email, Geburtsdatum, Recht, Registrierungsdatum) {
+        if (typeof BenutzerId.Benutzername === "undefined" && typeof Benutzername === "undefined") {
             throw Error("Benutzername wird benötigt")
         }
         if (typeof BenutzerId === "object") {
             this.BenutzerId = BenutzerId.BenutzerId
             this.Benutzername = BenutzerId.Benutzername
             this.Passwort = BenutzerId.Passwort
-            this.EMailAdresse = BenutzerId.EMailAdresse
+            this.EMailAdresse = BenutzerId.Email
             this.Geburtsdatum = BenutzerId.Geburtsdatum
-            this.Registrierungsdatum = BenutzerId.Registrierungsdatum
+            this.Recht = BenutzerId.Recht ?? 1
+            this.Registrierungsdatum = BenutzerId.Registrierungsdatum ?? Date(Date.now())
         } else {
             this.BenutzerId = BenutzerId
             this.Benutzername = Benutzername
             this.Passwort = Passwort
-            this.EMailAdresse = EMailAdresse
-            this.Geburtsdatum = Geburtsdatum,
-            this.Registrierungsdatum = Registrierungsdatum
+            this.EMailAdresse = Email
+            this.Geburtsdatum = Geburtsdatum
+            this.Recht = Recht ?? 1
+            this.Registrierungsdatum = Registrierungsdatum ?? Date(Date.now())
         }
     }
 
-    clean(){
+    clean() {
         let obj = Object.assign({}, this)
         obj.Passwort = null
-        return(obj); 
+        return (obj);
     }
 
     save() {
         return new Promise((res, rej) => {
-            db.querycomplex(`INSERT INTO Benutzer VALUES("${this.Id}", "${this.Benutzername}", "${this.Passwort}", "${this.Email}", "${this.Registrierungsdatum}") ON DUPLICATE KEY UPDATE "Id"=VALUES("Id"), "Benutzername"=VALUES("Benutzername"), "Passwort"=VALUES("Passwort"), "Email"=VALUES("Email"), "Registrierungsdatum"=VALUES("Registrierungsdatum");`).then(data => {
+            let str = `INSERT INTO Benutzer VALUES("${this.Id}", "${this.Benutzername}", "${this.Passwort}", "${this.Email}", "${this.Recht}","${this.Registrierungsdatum}") ON DUPLICATE KEY UPDATE "Id"=VALUES("Id"), "Benutzername"=VALUES("Benutzername"), "Passwort"=VALUES("Passwort"), "Email"=VALUES("Email"), "Registrierungsdatum"=VALUES("Registrierungsdatum");`
+            if (!this.Id) {
+                str = `INSERT INTO Benutzer('Benutzername', 'Passwort', 'Email', 'Recht', 'Registrierungsdatum') VALUES("${this.Benutzername}", "${this.Passwort}", "${this.Email}", "${this.Recht}", "${this.Registrierungsdatum}") ON DUPLICATE KEY UPDATE "Id"=VALUES("Id"), "Benutzername"=VALUES("Benutzername"), "Passwort"=VALUES("Passwort"), "Email"=VALUES("Email"), "Email"=VALUES("Recht"), "Registrierungsdatum"=VALUES("Registrierungsdatum");`
+            }
+            db.querycomplex(str).then(data => {
+                console.log(data)
                 res(true)
             }).catch(err => {
                 rej(err)
@@ -48,9 +54,9 @@ class userdb {
         })
     }
 
-    static getbyid(id){
+    static getbyid(id) {
         return new Promise((res, rej) => {
-            db.querySimple("Benutzer", "*", ` BenutzerId=${id}` ).then(user => {
+            db.querySimple("Benutzer", "*", ` BenutzerId=${id}`).then(user => {
                 res(new userdb(user.rows[0]))
             }).catch(err => {
                 console.log(err)
@@ -59,9 +65,9 @@ class userdb {
         })
     }
 
-    static getbybn(bn){
+    static getbybn(bn) {
         return new Promise((res, rej) => {
-            db.querySimple("Benutzer", "*", ` Benutzername=${bn}` ).then(user => {
+            db.querySimple("Benutzer", "*", ` Benutzername=${bn}`).then(user => {
                 res(new userdb(user.rows[0]))
             }).catch(err => {
                 rej(err)
@@ -69,9 +75,9 @@ class userdb {
         })
     }
 
-    static getbyemail(email){
+    static getbyemail(email) {
         return new Promise((res, rej) => {
-            db.querySimple("Benutzer", "*", ` EMailAdresse=${bn}` ).then(user => {
+            db.querySimple("Benutzer", "*", ` EMailAdresse=${bn}`).then(user => {
                 res(new userdb(user.rows[0]))
             }).catch(err => {
                 rej(err)

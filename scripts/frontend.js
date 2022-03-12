@@ -1,123 +1,135 @@
 //#region Imports
 import {
-    game,
-    LoadBar
-} from "./util_classes.js"
+  game,
+  LoadBar,
+  setgdclass,
+  setgfclass,
+  setggclass,
+  setgpclass,
+  setgtclass,
+} from "./util_classes.js";
 //#endregion
 
 //#region Declarations
-let gl
+let gl;
 
-var glider = null
-var games = []
+var glider = null;
+var games = [];
 
 const glideropts = {
-    breakpoints: {
-        1700: {
-            perView: 2,
-            peek: 150,
-        },
-        1000: {
-            perView: 1,
-            peek: 50,
-        },
+  breakpoints: {
+    1700: {
+      perView: 2,
+      peek: 75,
     },
-    type: 'carousel',
-    startAt: 0,
-    perView: 4,
-    peek: 250,
-    animationDuration: 800,
-    animationTimingFunc: "ease",
-    hoverpause: false,
-    perTouch: 3,
-    focusAt: 'center',
-}
+    1000: {
+      perView: 1,
+      peek: 25,
+    },
+  },
+  type: "carousel",
+  startAt: 0,
+  perView: 4,
+  peek: 100,
+  animationDuration: 800,
+  animationTimingFunc: "ease",
+  hoverpause: false,
+  perTouch: 3,
+  focusAt: "center",
+};
 //#endregion
 
 //#region Main
 function testuser() {
-    let test = JSON.stringify({
-        Id: 1
+  let test = JSON.stringify({
+    Id: 1,
+  });
+  fetch("/api/user/getuser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: test,
+  })
+    .then((data) => {
+      return data.json();
     })
-    fetch("/api/user/getuser", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: test
-    }).then(data => {
-        return data.json()
-    }).then(data => {
-        console.log(data)
-    })
+    .then((data) => {
+      console.log(data);
+    });
 }
 
 function dohighlight() {
-    let activegame = document.querySelector(".glide__slide--active > img")
-    if (!activegame) return
-    game.findgamebyid(activegame.id).then(gameinst => {
-        if (gameinst) {
-        gameinst.highlighted()
-    }})
-    
+  let activegame = document.querySelector(".glide__slide--active > img");
+  if (!activegame) return;
+  game.findgamebyid(activegame.id).then((gameinst) => {
+    if (gameinst) {
+      gameinst.highlighted();
+    }
+  });
 }
 
 function loadgames() {
-    glider = new Glide(".glide", glideropts)
+  setgtclass("ind-headerbox");
+  setggclass("ind-genre");
+  setgfclass("ind-fsk");
+  setgpclass("ind-platform");
+  setgdclass("ind-textbox");
 
-    glider.on(['swipe.end', 'run.after', 'build.after'], function () {
-        dohighlight()
+  glider = new Glide(".glide", glideropts);
+
+  glider.on(["swipe.end", "run.after", "build.after"], function () {
+    dohighlight();
+  });
+  const loadbar = new LoadBar("loadingbar", "loadingbar", 0, 26);
+  fetch("/api/games/findgame", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      Id: "145",
+    }),
+  })
+    .then((data) => {
+      return data.json();
     })
-    const prom = []
-    const loadbar = new LoadBar("loadingbar", "loadingbar", 0, 26)
-    fetch("/api/games/findgame", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            Id: "145"
+    .then((data) => {
+      if (!data.success) return;
+      games = data.data.rows;
+      games.forEach((gm, k) => {
+        const gam = new game(gm);
+        loadbar.addpercent(1);
+        gam.parseAll().then((val) => {
+          gam.addtoglide("slides");
+        });
+      });
+      fetch("/api/games/gethighlights")
+        .then((data) => {
+          return data.json();
         })
-    }).then(data => {
-        return data.json()
-    }).then(data => {
-        if (!data.success) return
-        games = data.data.rows
-        games.forEach((gm, k) => {
-            const gam = new game(gm)
-            loadbar.addpercent(1)
-
-            if (gam.PlattformID && Array.isArray(gam.PlattformID)) {
-                prom.insert(0, gam.parsePlattforms())
-            }
-            gam.parseBilder()
-            gam.addtoglide("slides")
-        });
-        fetch("/api/games/gethighlights").then(data => {
-            return data.json()
-        }).then(data => {
-            games = data.data.rows
-            games.forEach((gm, k) => {
-                const gam = new game(gm)
-                loadbar.addpercent(1)
-                if (gam.PlattformID && Array.isArray(gam.PlattformID)) {
-                    prom.insert(0, gam.parsePlattforms())
-                }
-                gam.parseBilder()
-                gam.addtoglide("slides")
+        .then((data) => {
+          games = data.data.rows;
+          games.forEach((gm, k) => {
+            const gam = new game(gm);
+            loadbar.addpercent(1);
+            gam.parseAll().then((val) => {
+              gam.addtoglide("slides");
             });
-            glider.mount()
-            setTimeout(() => {
-                document.getElementById("ind-loaderdiv").remove()
-            }, 1000);
-        }).catch(err => {
-            console.error(err)
+          });
+          setTimeout(() => {
+            glider.mount();
+
+            document.getElementById("ind-loaderdiv").remove();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
         });
-    }).catch(err => {
-        console.error(err)
+    })
+    .catch((err) => {
+      console.error(err);
     });
-
-
 }
 /*
       setTimeout(() => {
@@ -125,23 +137,20 @@ function loadgames() {
             }, 2500);
 */
 function domove(move) {
-    if (glider != null) {
-        glider.go(move)
-    }
+  if (glider != null) {
+    glider.go(move);
+  }
 }
 
-window.domove = domove
+window.domove = domove;
 //#endregion
 
 //#region To-Do
-function opendetails() {
-    
-}
-window.opendetails = opendetails
+function opendetails() {}
+window.opendetails = opendetails;
 //#endregion
 
-
 //#region Init
-loadgames()
+loadgames();
 //testuser()
 //#endregion
