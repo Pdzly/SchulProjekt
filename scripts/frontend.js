@@ -20,17 +20,24 @@ const glideropts = {
   breakpoints: {
     1700: {
       perView: 2,
-      peek: 75,
+      peek: 50,
+      gap: 100,
     },
-    1000: {
+    1250: {
       perView: 1,
       peek: 25,
+      gap: 150,
+    },
+    750: {
+      perView: 1,
+      gap: 250,
     },
   },
   type: "carousel",
   startAt: 0,
-  perView: 4,
+  perView: 3,
   peek: 100,
+  gap: 50,
   animationDuration: 800,
   animationTimingFunc: "ease",
   hoverpause: false,
@@ -149,6 +156,10 @@ window.domove = domove;
 function opendetails() {}
 window.opendetails = opendetails;
 //#endregion
+
+document.onresize = function(ev) {
+    glider.mount();
+}
 
 //#region Init
 loadgames();

@@ -115,3 +115,14 @@ img {
 #det-smallheaderbox>a:hover {
     color: #FFFFFF !important;
 }
+
+tr, td {
+    width: fit-content;
+    height: fit-content;
+}
+
+table{
+    padding-left: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}

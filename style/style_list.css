@@ -1,1 +1,75 @@
-.displaylist{width:70%}img{height:450px;width:300px;margin:10px;object-fit:cover;filter:grayscale(55%)}img:hover{-webkit-transition:0.3s;-moz-transition:0.3s;-ms-transition:0.3s;transition:0.3s;text-decoration:none;filter:grayscale(0%)}img:not(:hover){-webkit-transition:0.3s;-moz-transition:0.3s;-ms-transition:0.3s;transition:0.3s;text-decoration:none;filter:grayscale(55%)}.header{font-size:58px;font-family:Impact;color:#495251;text-transform:uppercase;letter-spacing:2px}.contload{display:block;color:#495251;font-family:Calibri;background-color:#aaf2ea;padding:5px;width:80px}.contload:hover{color:#FFFFFF;box-shadow:10px 10px #014848;-webkit-transition:0.3s;-moz-transition:0.3s;-ms-transition:0.3s;transition:0.3s;text-decoration:none}.contload:not(:hover){box-shadow:0px 0px #014848;-webkit-transition:0.3s;-moz-transition:0.3s;-ms-transition:0.3s;transition:0.3s;text-decoration:none}
+/* line 1, F:/SchulProjekt/scss/style_list.scss */
+.displaylist {
+  width: 70%;
+}
+
+/* line 5, F:/SchulProjekt/scss/style_list.scss */
+img {
+  height: 450px;
+  width: 300px;
+  margin: 10px;
+  object-fit: cover;
+  filter: grayscale(55%);
+}
+
+/* line 13, F:/SchulProjekt/scss/style_list.scss */
+img:hover {
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  transition: 0.3s;
+  text-decoration: none;
+  filter: grayscale(0%);
+}
+
+/* line 22, F:/SchulProjekt/scss/style_list.scss */
+img:not(:hover) {
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  transition: 0.3s;
+  text-decoration: none;
+  filter: grayscale(55%);
+}
+
+/* line 31, F:/SchulProjekt/scss/style_list.scss */
+.header {
+  font-size: 58px;
+  font-family: Impact;
+  color: #495251;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* line 39, F:/SchulProjekt/scss/style_list.scss */
+.contload {
+  display: block;
+  color: #495251;
+  font-family: Calibri;
+  background-color: #aaf2ea;
+  padding: 5px;
+  width: 80px;
+}
+
+/* line 48, F:/SchulProjekt/scss/style_list.scss */
+.contload:hover {
+  color: #FFFFFF;
+  box-shadow: 10px 10px #014848;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+/* line 58, F:/SchulProjekt/scss/style_list.scss */
+.contload:not(:hover) {
+  box-shadow: 0px 0px #014848;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=style_list.css.map */
