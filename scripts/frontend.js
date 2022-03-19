@@ -128,7 +128,7 @@ function loadgames() {
             glider.mount();
 
             document.getElementById("ind-loaderdiv").remove();
-          }, 1000);
+          }, 2000);
         })
         .catch((err) => {
           console.error(err);
