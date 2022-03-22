@@ -30,7 +30,6 @@ function loadgame() {
             const gam = new game(gm)
             gam.parseAll().then(val => {
                 gam.highlighted()
-                console.log(gam)
                 if(gam.bilder?.length > 0){
                     document.getElementById("det-img").src = "/img/start/" + gam.bilder[0].URL
                 }else{
@@ -44,6 +43,8 @@ function loadgame() {
     });
 
 }
+
+
 
 
 

@@ -36,6 +36,12 @@ app.get('/game', function (request, response, next) {
     } else { next("Kein Spiel gefunden!") }
 });
 
+app.get('/profil', function (request, response, next) {
+    if (request.query["id"]) {
+        response.render('profil', { title: "GameTopia | Profil", style: "style_profil.css", ignorescript: true, script: "scripts/profilfrontend.js" });
+    } else { next("Kein User gefunden!") }
+});
+
 
 app.get('/login', function (request, response, next) {
     response.render('login', {
@@ -62,7 +68,24 @@ app.get('/list', function (request, response, next) {
     response.render('list', {
         title: "GameTopia",
         ignorescript: true,
-        style: "style_list.css"
+        style: "style_list.css",
+        script: "scripts/listfrontend.js"
+    });
+});
+
+app.get('/news', function (request, response, next) {
+    response.render('news', {
+        title: "GameTopia | News",
+        ignorescript: true,
+        style: "style_news.css"
+    });
+});
+
+app.get('/user', function (request, response, next) {
+    response.render('user', {
+        title: "GameTopia | User",
+        ignorescript: true,
+        style: "style_user.css"
     });
 });
 

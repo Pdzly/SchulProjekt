@@ -11111,11 +11111,8 @@ textarea.form-control-lg {
 }
 
 .glide__slide--active > img {
-  border-bottom: 7px solid #008080;
+  border: 7px solid #008080;
   height: 100%;
-  padding: 20px;
-  filter: grayscale(0%);
-  transition: 0.3s;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -11146,8 +11143,6 @@ textarea.form-control-lg {
 
 .gamepreview {
   display: block;
-  filter: grayscale(80%);
-  transition: 0.3s;
   margin-left: auto;
   margin-right: auto;
   height: 100%;

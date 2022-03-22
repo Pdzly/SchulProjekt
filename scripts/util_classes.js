@@ -29,7 +29,11 @@ export function setggclass(val) {
   ggclass = val;
 }
 let gg;
-
+let activeclass = "ind-detail-link";
+export function setactiveclass(val) {
+  activeclass = val;
+}
+let active;
 String.prototype.hash = function (seed = 0) {
   let h1 = 0xdeadbeef ^ seed,
     h2 = 0x41c6ce57 ^ seed;
@@ -48,6 +52,27 @@ String.prototype.hash = function (seed = 0) {
 };
 //#region Usermanager
 export class usermanager {
+  static getuserbyemail(id) {
+    return new Promise((res, rej) => {
+      fetch("/api/user/getuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Id: id }),
+      })
+        .then((val) => {
+          return val.json();
+        })
+        .then((val) => {
+          if (val.IsValid) {
+            res(val);
+          } else {
+            res(val);
+          }
+        });
+    });
+  }
   static getuserbyemail(email) {
     return new Promise((res, rej) => {
       fetch("/api/user/getuser", {
@@ -136,24 +161,31 @@ export class usermanager {
           }
         });
     });
-  
   }
 
-  static getlocaluser(){
-    let token = getCookie("gametroopiaaccess")
-    if(!token) {
-      token = sessionStorage.getItem('gametroopiaaccess')
+  static getlocaluser() {
+    let token = getCookie("gametroopiaaccess");
+    if (!token) {
+      token = sessionStorage.getItem("gametroopiaaccess");
     }
-    let benutzername = getCookie("gametroopiabenutzername")
-    if(!benutzername) {
-      benutzername = sessionStorage.getItem('gametroopiabenutzername')
+    let benutzername = getCookie("gametroopiabenutzername");
+    if (!benutzername) {
+      benutzername = sessionStorage.getItem("gametroopiabenutzername");
     }
-    return {accesstoken: token ?? false, username: benutzername}
+    return { accesstoken: token ?? false, username: benutzername };
   }
-  static savelocaluser(data){
+  static savelocaluser(data) {
     // Creating a cookie
-    document.cookie = "gametroopiaaccess=" + data.accesstoken + "; path=/; max-age=" + 5*24*60*60;
-    document.cookie = "gametroopiabenutzername=" + data.Benutzername + "; path=/; max-age=" + 5*24*60*60;
+    document.cookie =
+      "gametroopiaaccess=" +
+      data.accesstoken +
+      "; path=/; max-age=" +
+      5 * 24 * 60 * 60;
+    document.cookie =
+      "gametroopiabenutzername=" +
+      data.Benutzername +
+      "; path=/; max-age=" +
+      5 * 24 * 60 * 60;
   }
 }
 //#endregion
@@ -337,7 +369,9 @@ export class game {
     if (!gg) {
       gg = document.getElementById(ggclass);
     }
-    console.log(this);
+    if (!active) {
+      active = document.getElementById(activeclass);
+    }
     if (gp) {
       gp.innerHTML = "[ ]";
     }
@@ -353,6 +387,11 @@ export class game {
     if (gd) {
       gd.innerText = this.Kurztext || "Keine Beschreibung vorhanden";
     }
+
+    if (active) {
+      active.href = "/game?id=" + this.SpielID;
+    }
+
     if (this.plattforms) {
       this.plattforms.forEach((platt) => {
         platt.highlight();
@@ -456,12 +495,10 @@ export class game {
       this.bilder = [];
       const promises = [];
       this.BildIDs.forEach((bildid) => {
-        console.log(bildid);
         promises.insert(
           0,
           bild.getBildById(bildid.BildID ?? bildid).then(
             (bld) => {
-              console.log(bld);
               if (bld) {
                 this.bilder.insert(0, new bild(bld));
               }
@@ -547,6 +584,29 @@ export class game {
     });
   }
 
+  static getallgames() {
+    return fetch("/api/games/getgames", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .then((data) => {
+        if (!data.success) return;
+        data = data.data.rows;
+        if (data) {
+          return data;
+        } else {
+          throw "Keine Spiele gefunden!";
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
   static findgamebyname(name) {
     let game = registeredgames.find((dat) => {
       return dat.Bezeichnung == name;
@@ -1009,19 +1069,19 @@ export function getStyleSheet(unique_title) {
 function getCookie(name) {
   // Split cookie string and get all individual name=value pairs in an array
   var cookieArr = document.cookie.split(";");
-  
+
   // Loop through the array elements
-  for(var i = 0; i < cookieArr.length; i++) {
-      var cookiePair = cookieArr[i].split("=");
-      
-      /* Removing whitespace at the beginning of the cookie name
+  for (var i = 0; i < cookieArr.length; i++) {
+    var cookiePair = cookieArr[i].split("=");
+
+    /* Removing whitespace at the beginning of the cookie name
       and compare it with the given string */
-      if(name == cookiePair[0].trim()) {
-          // Decode the cookie value and return
-          return decodeURIComponent(cookiePair[1]);
-      }
+    if (name == cookiePair[0].trim()) {
+      // Decode the cookie value and return
+      return decodeURIComponent(cookiePair[1]);
+    }
   }
-  
+
   // Return null if not found
   return null;
 }

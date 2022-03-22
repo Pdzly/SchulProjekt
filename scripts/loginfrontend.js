@@ -18,7 +18,6 @@ function dologin() {
       if (res.correct) {
         console.log(res);
         if (save.checked) {
-          console.log("Speichern");
           usermanager.savelocaluser(res.data)
         }else{
           sessionStorage.setItem('gametroopiaaccess', res.data.accesstoken)

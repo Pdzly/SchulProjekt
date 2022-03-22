@@ -14,16 +14,11 @@
     <script src="scripts/frontend.js" defer type="module"></script>
     {{/unless}}
     {{/if}}
-    {{#unless filepond}}
-    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
-    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-    {{/unless}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200&family=Oswald:wght@200;400&display=swap"
         rel="stylesheet">
-    <!-- Filepond stylesheet -->
     {{#if style}}
     <link rel="stylesheet" href="style/{{style}}">
     {{else}}
@@ -66,6 +61,15 @@
                         <a class="nav-link" href="/news">NEWS</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/create">ADD A GAME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile?id=">PROFILE & SETTINGS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user">GAMETOPIANS</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link disabled"></a>
                     </li>
                 </ul>
@@ -83,7 +87,7 @@
                 <h6>GameToopia</h6>
                 <h6>Deine Spielseite!</h6>
                 <h6>Made by Alexa, Cornelia, Johanna, Philipp</h6>
-                <img src="/img/logo.png" style="width: 25%;">
+                <img src="/img/logo.png" id="logo-footer">
             </div>
         </center>
     </footer>

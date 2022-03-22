@@ -14,9 +14,6 @@ function doregister() {
   if (!password) {
     password = document.getElementById("pwd");
   }
-  console.log(email.value);
-  console.log(username.value);
-  console.log(password.value);
   usermanager
     .createuser(email.value, username.value, password.value)
     .then((res) => {

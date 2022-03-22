@@ -124,5 +124,4 @@ router.post("/register", function (req, res, next) {
   });
 });
 
-module.exports = {router: router, accesstokens:  accesstokens};
-
+module.exports = { router: router, accesstokens: accesstokens };

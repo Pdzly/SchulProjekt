@@ -19,24 +19,24 @@ var games = [];
 const glideropts = {
   breakpoints: {
     1700: {
-      perView: 2,
+      perView: 3,
       peek: 50,
-      gap: 100,
+      gap: 25,
     },
     1250: {
-      perView: 1,
+      perView: 2,
       peek: 25,
-      gap: 150,
+      gap: 25,
     },
     750: {
       perView: 1,
-      gap: 250,
+      gap: 25,
     },
   },
   type: "carousel",
   startAt: 0,
-  perView: 3,
-  peek: 100,
+  perView: 4,
+  peek: 25,
   gap: 50,
   animationDuration: 800,
   animationTimingFunc: "ease",
@@ -76,6 +76,7 @@ function dohighlight() {
   });
 }
 
+
 function loadgames() {
   setgtclass("ind-headerbox");
   setggclass("ind-genre");
@@ -89,28 +90,7 @@ function loadgames() {
     dohighlight();
   });
   const loadbar = new LoadBar("loadingbar", "loadingbar", 0, 26);
-  fetch("/api/games/findgame", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      Id: "145",
-    }),
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .then((data) => {
-      if (!data.success) return;
-      games = data.data.rows;
-      games.forEach((gm, k) => {
-        const gam = new game(gm);
-        loadbar.addpercent(1);
-        gam.parseAll().then((val) => {
-          gam.addtoglide("slides");
-        });
-      });
+  
       fetch("/api/games/gethighlights")
         .then((data) => {
           return data.json();
@@ -124,7 +104,34 @@ function loadgames() {
               gam.addtoglide("slides");
             });
           });
+          fetch("/api/games/findgame", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              Id: "1",
+            }),
+          })
+            .then((data) => {
+              return data.json();
+            })
+            .then((data) => {
+              if (!data.success) return;
+              games = data.data.rows;
+              games.forEach((gm, k) => {
+                const gam = new game(gm);
+                loadbar.addpercent(1);
+                gam.parseAll().then((val) => {
+                  gam.addtoglide("slides");
+                });
+              });
           setTimeout(() => {
+            glider = new Glide(".glide", glideropts);
+            
+            glider.on(["swipe.end", "run.after", "build.after"], function () {
+              dohighlight();
+            });
             glider.mount();
 
             document.getElementById("ind-loaderdiv").remove();
