@@ -3,7 +3,7 @@ const { userdb } = require('../mysql/userdb');
 const con = mysql.createConnection({
     host: '5.104.107.59',
     user: 'gametopia_user',
-    password: '#1742Dad123#',
+    password: '',
     database: 'GameTopia',
     insecureAuth: false,
     port: "3306",
