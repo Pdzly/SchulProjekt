@@ -6,9 +6,6 @@ function imageExists(url, callback) {
   img.src = url;
 }
 
-// Sample usage
-var imageUrl = 'http://www.google.com/images/srpr/nav_logo14.png';
-
 function doload() {
   game.getallgames().then((val) => {
     let list = document.getElementById("gamelist");
